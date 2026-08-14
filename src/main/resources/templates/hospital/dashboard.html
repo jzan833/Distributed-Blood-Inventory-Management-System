@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard - RedHope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<body class="hospital-page">
+
+    <!-- Mobile overlay -->
+    <div class="hospital-mobile-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <nav class="hospital-sidebar" id="hospitalSidebar">
+        <div class="sidebar-brand">
+            <a href="/hospital/dashboard">
+                <i class="fas fa-heartbeat me-2"></i>RedHope
+            </a>
+        </div>
+        <div class="flex-grow-1 overflow-auto py-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/hospital/dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/inventory">
+                        <i class="fas fa-boxes"></i> Blood Inventory
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/requests">
+                        <i class="fas fa-hand-holding-medical"></i> Blood Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/donations">
+                        <i class="fas fa-tint"></i> Blood Donations
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <form th:action="@{/logout}" method="post" class="d-inline w-100">
+                        <button type="submit" class="nav-link border-0 bg-transparent text-white w-100 text-start">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="hospital-main-content">
+        <!-- Top bar for mobile -->
+        <nav class="navbar navbar-dark bg-danger d-lg-none">
+            <div class="container-fluid">
+                <button class="btn btn-link text-white p-0" onclick="toggleSidebar()">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+                <span class="navbar-brand mb-0 h1 fw-bold">RedHope</span>
+                <span class="text-white small" th:text="${hospitalName}">Hospital</span>
+            </div>
+        </nav>
+
+        <div class="container-fluid dashboard-container py-4">
+            <div class="container">
+                <!-- Welcome Header -->
+                <div class="row mb-4 fade-in-up">
+                    <div class="col-12">
+                        <div class="hospital-welcome-modern">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h1 th:text="'Welcome, ' + ${adminName}">Welcome, Admin</h1>
+                                    <p th:text="${hospitalName}">Hospital Name</p>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <span class="badge hospital-badge fs-6">
+                                        <i class="fas fa-hospital me-1"></i>Hospital Admin
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="welcome-visual"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="row g-3 mb-4 fade-in-up delay-1">
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-primary">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-hand-holding-medical"></i>
+                            </div>
+                            <div class="stat-number" th:text="${totalRequests}">0</div>
+                            <div class="stat-title">Total Requests</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-primary">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="stat-number" th:text="${totalDonations}">0</div>
+                            <div class="stat-title">Total Donations</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-warning">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-number" th:text="${pendingRequests}">0</div>
+                            <div class="stat-title">Pending Requests</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-warning">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-number" th:text="${pendingDonations}">0</div>
+                            <div class="stat-title">Pending Donations</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-danger">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-number" th:text="${lowStockAlerts}">0</div>
+                            <div class="stat-title">Low Stock Alerts</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-xl-2">
+                        <div class="stat-card-modern card-neutral">
+                            <div class="stat-accent"></div>
+                            <div class="stat-icon-wrap">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="stat-number" th:text="${todayAppointments}">0</div>
+                            <div class="stat-title">Today's Appointments</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="row g-3 mb-4 fade-in-up delay-2">
+                    <div class="col-12">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <a href="/hospital/inventory" class="quick-action-card-modern">
+                                    <div class="action-icon-modern red">
+                                        <i class="fas fa-boxes"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <div class="action-title">Manage Inventory</div>
+                                        <p class="action-desc">Update stock levels and thresholds</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/hospital/requests" class="quick-action-card-modern">
+                                    <div class="action-icon-modern amber">
+                                        <i class="fas fa-hand-holding-medical"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <div class="action-title">Blood Requests</div>
+                                        <p class="action-desc">Review and process requests</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/hospital/donations" class="quick-action-card-modern">
+                                    <div class="action-icon-modern teal">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="action-content">
+                                        <div class="action-title">Blood Donations</div>
+                                        <p class="action-desc">Manage donation appointments</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Blood Requests & Donations -->
+                <div class="row g-4 mb-4 fade-in-up delay-2">
+                    <div class="col-lg-7">
+                        <div class="section-header-modern">
+                            <h3><i class="fas fa-hand-holding-medical"></i>Recent Blood Requests</h3>
+                            <a href="/hospital/requests" class="view-all">View All Requests <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div class="table-container-modern">
+                            <div class="card-body p-0">
+                                <div th:if="${recentRequests.empty}" class="empty-state-modern">
+                                    <i class="fas fa-inbox"></i>
+                                    <h5>No recent blood requests</h5>
+                                    <p>New requests will appear here.</p>
+                                </div>
+                                <div th:unless="${recentRequests.empty}" class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Requester</th>
+                                            <th>Blood Type</th>
+                                            <th>Urgency</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="request : ${recentRequests}">
+                                            <td th:text="${request.id}">#1</td>
+                                            <td>
+                                                <div class="fw-semibold" th:text="${request.requester.fullName}">John Doe</div>
+                                            </td>
+                                            <td>
+                                                <span class="blood-badge"><i class="fas fa-tint"></i><span th:text="${request.bloodType.displayName}">A+</span></span>
+                                            </td>
+                                            <td>
+                                                <span class="urgency-badge" th:classappend="${request.urgency == T(com.redhope.enums.Urgency).CRITICAL ? 'urgency-critical' : (request.urgency == T(com.redhope.enums.Urgency).HIGH ? 'urgency-high' : 'urgency-normal')}" th:text="${request.urgency.displayName}">Normal</span>
+                                            </td>
+                                            <td>
+                                                <span class="status-badge-modern" th:classappend="${request.status == T(com.redhope.enums.RequestStatus).PENDING ? 'status-pending' : (request.status == T(com.redhope.enums.RequestStatus).APPROVED ? 'status-approved' : (request.status == T(com.redhope.enums.RequestStatus).REJECTED ? 'status-rejected' : (request.status == T(com.redhope.enums.RequestStatus).COMPLETED ? 'status-completed' : 'bg-secondary'))) }" th:text="${request.status.displayName}">Pending</span>
+                                            </td>
+                                            <td th:text="${#temporals.format(request.requestedAt, 'MMM d, yyyy')}">Jan 15, 2024</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="section-header-modern">
+                            <h3><i class="fas fa-tint"></i>Recent Donations</h3>
+                            <a href="/hospital/donations" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div class="table-container-modern">
+                            <div class="card-body p-0">
+                                <div th:if="${recentDonations.empty}" class="empty-state-modern">
+                                    <i class="fas fa-inbox"></i>
+                                    <h5>No recent donations</h5>
+                                    <p>Donation appointments will appear here.</p>
+                                </div>
+                                <div th:unless="${recentDonations.empty}" class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Donor</th>
+                                            <th>Blood Type</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="donation : ${recentDonations}">
+                                            <td>
+                                                <div class="fw-semibold" th:text="${donation.donor.fullName}">John Doe</div>
+                                            </td>
+                                            <td>
+                                                <span class="blood-badge"><i class="fas fa-tint"></i><span th:text="${donation.donor.bloodType.displayName}">A+</span></span>
+                                            </td>
+                                            <td th:text="${#temporals.format(donation.preferredDate, 'MMM d, yyyy')}">Jan 20, 2024</td>
+                                            <td>
+                                                <span class="status-badge-modern" th:classappend="${donation.status == T(com.redhope.enums.DonationStatus).PENDING ? 'status-pending' : (donation.status == T(com.redhope.enums.DonationStatus).APPROVED ? 'status-approved' : (donation.status == T(com.redhope.enums.DonationStatus).REJECTED ? 'status-rejected' : (donation.status == T(com.redhope.enums.DonationStatus).COMPLETED ? 'status-completed' : (donation.status == T(com.redhope.enums.DonationStatus).CANCELLED ? 'status-cancelled' : 'bg-secondary'))) )}" th:text="${donation.status.displayName}">Pending</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alerts -->
+                <div class="row g-4 mb-4 fade-in-up delay-3" th:if="${not #lists.isEmpty(lowStockItems)}">
+                    <div class="col-12">
+                        <div class="low-stock-panel-modern">
+                            <div class="panel-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>Low Stock Alerts</h3>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6 col-lg-4" th:each="item : ${lowStockItems}">
+                                    <div class="low-stock-item">
+                                        <div class="item-info">
+                                            <div class="blood-drop-icon">
+                                                <i class="fas fa-tint"></i>
+                                            </div>
+                                            <div>
+                                                <div class="item-text" th:text="${item.bloodType.displayName}">A+</div>
+                                                <div class="item-sub">Threshold: <span th:text="${item.lowStockThreshold}">5</span> units</div>
+                                            </div>
+                                        </div>
+                                        <span class="status-badge-modern" th:classappend="${item.unitsAvailable == 0 ? 'status-critical' : 'status-low'}" th:text="${item.unitsAvailable + ' units'}">3 units</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="hospital-footer">
+            <div class="container text-center">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('hospitalSidebar').classList.toggle('show');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

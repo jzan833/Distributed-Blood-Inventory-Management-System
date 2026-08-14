@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - RedHope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/user.css" rel="stylesheet">
+</head>
+<body class="user-page">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top user-nav" id="userNav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-heart-pulse"></i>RedHope
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNavbar"
+                    aria-controls="userNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="userNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/dashboard"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i> Request Blood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> Donate Blood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user/history"><i class="fas fa-history me-1"></i> History</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center user-area">
+                    <div class="user-avatar" th:text="${userName.substring(0, 2).toUpperCase()}">JD</div>
+                    <span class="user-name d-none d-sm-inline" th:text="${userName}">John Doe</span>
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit" class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">Logout</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Background Layer -->
+    <div class="page-bg-layer">
+        <div class="bg-orb teal bg-orb-1"></div>
+        <div class="bg-orb red bg-orb-2"></div>
+    </div>
+
+    <div class="user-main">
+        <div class="container py-4">
+            <!-- Page Header -->
+            <div class="page-header fade-in-up">
+                <span class="section-label">My Activity</span>
+                <h2>My Activity History</h2>
+                <p>Track all your blood requests and donation appointments in one place.</p>
+            </div>
+
+            <!-- Alerts -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${broadcastMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="fas fa-broadcast-tower me-2"></i>
+                <span th:text="${broadcastMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav history-tabs fade-in-up delay-1" id="historyTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-tab="requests">
+                        <i class="fas fa-hand-holding-medical me-1"></i>My Blood Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-tab="donations">
+                        <i class="fas fa-tint me-1"></i>My Donations
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content fade-in-up delay-2">
+                <!-- Requests -->
+                <div id="requests" class="tab-pane fade show active">
+                    <div th:if="${requests.empty}" class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-hand-holding-medical"></i>
+                        </div>
+                        <p class="text-muted mb-0">You haven't submitted any blood requests yet.</p>
+                        <a href="/user/request-blood" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>Submit Your First Request
+                        </a>
+                    </div>
+
+                    <div th:unless="${requests.empty}">
+                        <!-- Desktop Table -->
+                        <div class="table-responsive-history">
+                            <div class="activity-card">
+                                <div class="activity-header">
+                                    <h5><i class="fas fa-hand-holding-medical"></i>Blood Requests</h5>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover recent-activity-table align-middle mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Hospital</th>
+                                            <th scope="col">Blood Group</th>
+                                            <th scope="col">Urgency</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Date Submitted</th>
+                                            <th scope="col" class="text-end">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="req : ${requests}">
+                                            <td th:text="${req.id}">#001</td>
+                                            <td>
+                                                <div class="fw-medium" th:text="${req.hospital.name}">City Medical Center</div>
+                                                <small class="text-muted" th:text="${req.hospital.city}">Downtown</small>
+                                            </td>
+                                            <td>
+                                                <span th:classappend="${#strings.contains(req.bloodType.name(), 'O_') ? 'bg-success' : (#strings.contains(req.bloodType.name(), 'AB_') ? 'bg-danger' : 'bg-warning text-dark')}"
+                                                      class="badge blood-type-badge history-blood-badge"
+                                                      th:text="${req.bloodType.displayName}">A+</span>
+                                            </td>
+                                            <td>
+                                                <span th:classappend="${req.urgency.name() == 'CRITICAL' ? 'urgency-critical' : (req.urgency.name() == 'HIGH' ? 'urgency-high' : 'urgency-normal')}"
+                                                      class="badge urgency-badge"
+                                                      th:text="${req.urgency.displayName}">High</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge status-badge"
+                                                      th:classappend="${req.status.name() == 'PENDING' ? 'status-pending' : (req.status.name() == 'APPROVED' ? 'status-approved' : ((req.status.name() == 'REJECTED' or req.status.name() == 'CANCELLED') ? 'status-rejected' : (req.status.name() == 'COMPLETED' ? 'status-completed' : 'bg-secondary')))}"
+                                                      th:text="${req.status.displayName}">Pending Review</span>
+                                            </td>
+                                            <td th:text="${#temporals.format(req.requestedAt, 'MMM d, yyyy h:mm a')}">Jan 15, 2024 10:30 AM</td>
+                                            <td class="text-end">
+                                                <div th:unless="${req.status.name() == 'PENDING'}" class="text-muted small fst-italic"
+                                                     th:text="${req.status.displayName}">Pending Review</div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="history-cards-mobile" style="display: none;">
+                            <div th:each="req : ${requests}" class="history-card">
+                                <div class="history-card-icon red">
+                                    <i class="fas fa-hand-holding-medical"></i>
+                                </div>
+                                <div class="history-card-body">
+                                    <div class="history-card-title">Blood Request #<span th:text="${req.id}">001</span></div>
+                                    <div class="history-card-meta">
+                                        <span th:text="${req.hospital.name}">City Medical Center</span> · <span th:text="${req.hospital.city}">Downtown</span>
+                                    </div>
+                                    <div class="history-card-footer">
+                                        <span class="badge urgency-badge"
+                                              th:classappend="${req.urgency.name() == 'CRITICAL' ? 'urgency-critical' : (req.urgency.name() == 'HIGH' ? 'urgency-high' : 'urgency-normal')}"
+                                              th:text="${req.urgency.displayName}">High</span>
+                                        <span class="badge status-badge"
+                                              th:classappend="${req.status.name() == 'PENDING' ? 'status-pending' : (req.status.name() == 'APPROVED' ? 'status-approved' : ((req.status.name() == 'REJECTED' or req.status.name() == 'CANCELLED') ? 'status-rejected' : (req.status.name() == 'COMPLETED' ? 'status-completed' : 'bg-secondary')))}"
+                                              th:text="${req.status.displayName}">Pending Review</span>
+                                        <span class="history-card-date" th:text="${#temporals.format(req.requestedAt, 'MMM d, yyyy')}">Jan 15, 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donations -->
+                <div id="donations" class="tab-pane fade">
+                    <div th:if="${donations.empty}" class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <p class="text-muted mb-0">You haven't scheduled any blood donations yet.</p>
+                        <a href="/user/donate-blood" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>Schedule Your First Donation
+                        </a>
+                    </div>
+
+                    <div th:unless="${donations.empty}">
+                        <!-- Desktop Table -->
+                        <div class="table-responsive-history">
+                            <div class="activity-card">
+                                <div class="activity-header">
+                                    <h5><i class="fas fa-tint"></i>Donation History</h5>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover recent-activity-table align-middle mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Hospital</th>
+                                            <th scope="col">Blood Type</th>
+                                            <th scope="col">Preferred Date</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Date Submitted</th>
+                                            <th scope="col" class="text-end">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="don : ${donations}">
+                                            <td th:text="${don.id}">#001</td>
+                                            <td>
+                                                <div class="fw-medium" th:text="${don.hospital.name}">City Medical Center</div>
+                                                <small class="text-muted" th:text="${don.hospital.city}">Downtown</small>
+                                            </td>
+                                            <td>
+                                                <span th:classappend="${#strings.contains(don.donor.bloodType.name(), 'O_') ? 'bg-success' : (#strings.contains(don.donor.bloodType.name(), 'AB_') ? 'bg-danger' : 'bg-warning text-dark')}"
+                                                      class="badge blood-type-badge history-blood-badge"
+                                                      th:text="${don.donor.bloodType.displayName}">A+</span>
+                                            </td>
+                                            <td th:text="${#temporals.format(don.preferredDate, 'MMM d, yyyy')}">Jan 15, 2024</td>
+                                            <td>
+                                                <span class="badge status-badge"
+                                                      th:classappend="${don.status.name() == 'PENDING' ? 'status-pending' : (don.status.name() == 'APPROVED' ? 'status-approved' : ((don.status.name() == 'REJECTED' or don.status.name() == 'CANCELLED') ? 'status-rejected' : (don.status.name() == 'COMPLETED' ? 'status-completed' : 'bg-secondary')))}"
+                                                      th:text="${don.status.displayName}">Pending Review</span>
+                                            </td>
+                                            <td th:text="${#temporals.format(don.requestedAt, 'MMM d, yyyy h:mm a')}">Jan 15, 2024 10:30 AM</td>
+                                            <td class="text-end">
+                                                <div th:unless="${don.status.name() == 'PENDING'}" class="text-muted small fst-italic"
+                                                     th:text="${don.status.displayName}">Pending Review</div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="history-cards-mobile" style="display: none;">
+                            <div th:each="don : ${donations}" class="history-card">
+                                <div class="history-card-icon teal">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="history-card-body">
+                                    <div class="history-card-title">Blood Donation #<span th:text="${don.id}">001</span></div>
+                                    <div class="history-card-meta">
+                                        <span th:text="${don.hospital.name}">City Medical Center</span> · <span th:text="${don.hospital.city}">Downtown</span>
+                                    </div>
+                                    <div class="history-card-footer">
+                                        <span class="badge blood-type-badge history-blood-badge"
+                                              th:classappend="${#strings.contains(don.donor.bloodType.name(), 'O_') ? 'bg-success' : (#strings.contains(don.donor.bloodType.name(), 'AB_') ? 'bg-danger' : 'bg-warning text-dark')}"
+                                              th:text="${don.donor.bloodType.displayName}">A+</span>
+                                        <span class="badge status-badge"
+                                              th:classappend="${don.status.name() == 'PENDING' ? 'status-pending' : (don.status.name() == 'APPROVED' ? 'status-approved' : ((don.status.name() == 'REJECTED' or don.status.name() == 'CANCELLED') ? 'status-rejected' : (don.status.name() == 'COMPLETED' ? 'status-completed' : 'bg-secondary')))}"
+                                              th:text="${don.status.displayName}">Pending Review</span>
+                                        <span class="history-card-date" th:text="${#temporals.format(don.preferredDate, 'MMM d, yyyy')}">Jan 15, 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="compact-footer">
+        <div class="container">
+            <div class="row align-items-center g-3">
+                <div class="col-md-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-heart-pulse"></i>RedHope
+                    </div>
+                    <p class="footer-tagline">Connecting donors with hospitals in real-time to save lives.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <ul class="footer-links">
+                        <li><a href="/signup">Donate Blood</a></li>
+                        <li><a href="/signup">Request Blood</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#knowledge">Blood Knowledge</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to save lives.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabs = document.querySelectorAll('#historyTabs .nav-link');
+            var tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var targetTab = this.getAttribute('data-tab');
+
+                    tabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+
+                    tabPanes.forEach(function(pane) {
+                        pane.classList.remove('show', 'active');
+                    });
+                    document.getElementById(targetTab).classList.add('show', 'active');
+                });
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            var navbar = document.getElementById('userNav');
+            if (!navbar) return;
+
+            function updateNavbar() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            window.addEventListener('scroll', updateNavbar, { passive: true });
+            updateNavbar();
+        })();
+    </script>
+</body>
+</html>

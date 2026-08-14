@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Blood - RedHope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/user.css" rel="stylesheet">
+</head>
+<body class="user-page">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top user-nav" id="userNav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-heart-pulse"></i>RedHope
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userNavbar"
+                    aria-controls="userNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="userNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/dashboard"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i> Request Blood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> Donate Blood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/history"><i class="fas fa-history me-1"></i> History</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center user-area">
+                    <div class="user-avatar" th:text="${userName.substring(0, 2).toUpperCase()}">JD</div>
+                    <span class="user-name d-none d-sm-inline" th:text="${userName}">John Doe</span>
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit" class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">Logout</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Background Layer -->
+    <div class="page-bg-layer">
+        <div class="bg-orb red bg-orb-1"></div>
+        <div class="bg-orb teal bg-orb-2"></div>
+    </div>
+
+    <div class="user-main">
+        <div class="container py-4">
+            <!-- Page Header -->
+            <div class="page-header fade-in-up">
+                <span class="section-label">Request Blood</span>
+                <h2>Request Blood</h2>
+                <p>Submit a blood request to a partner hospital. A hospital administrator will review your request and coordinate care.</p>
+            </div>
+
+            <!-- Alerts -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${broadcastMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="fas fa-broadcast-tower me-2"></i>
+                <span th:text="${broadcastMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="page-layout fade-in-up delay-1">
+                <!-- Left: Visual / Info -->
+                <div class="page-visual">
+                    <div class="page-visual-content">
+                        <span class="section-label">How it works</span>
+                        <h3>Request Blood<br>in 3 Steps</h3>
+                        <p>Submit your request and our partner hospitals will respond as quickly as possible.</p>
+                        <ul class="visual-features">
+                            <li><i class="fas fa-check-circle"></i> Choose a partner hospital</li>
+                            <li><i class="fas fa-check-circle"></i> Select urgency level</li>
+                            <li><i class="fas fa-check-circle"></i> Submit medical details</li>
+                        </ul>
+                    </div>
+                    <div class="page-visual-3d">
+                        <div class="blood-drop-3d">
+                            <div class="blood-ring"></div>
+                            <div class="blood-ring"></div>
+                            <div class="blood-drop-main"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div class="form-card glass-card">
+                    <form th:action="@{/user/requests}" method="post" th:object="${bloodRequestDTO}" novalidate>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>Please correct the errors below.
+                        </div>
+
+                        <!-- Request Information -->
+                        <div class="form-section-title">
+                            <i class="fas fa-info-circle me-2" style="color: var(--rh-red);"></i>Request Information
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="hospital" class="form-label fw-semibold">
+                                    Hospital <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="hospital" name="hospitalId" th:field="*{hospitalId}" required>
+                                    <option value="">Select a hospital</option>
+                                    <option th:each="hospital : ${hospitals}"
+                                            th:value="${hospital.id}"
+                                            th:data-city="${hospital.city}"
+                                            th:text="${hospital.name}">Hospital Name</option>
+                                </select>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('hospitalId')}" th:errors="*{hospitalId}"></div>
+                                <div id="hospitalCityInfo" class="mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>
+                                        <span id="selectedHospitalCity"></span>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="bloodType" class="form-label fw-semibold">
+                                    Blood Group <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="bloodType" name="bloodType" th:field="*{bloodType}" required>
+                                    <option th:each="bloodType : ${bloodTypes}"
+                                            th:value="${bloodType.name()}"
+                                            th:text="${bloodType.displayName}">A+</option>
+                                </select>
+                                <div class="form-text">
+                                    <i class="fas fa-user me-1"></i>Your blood type: <span th:text="${userBloodType}">A+</span>
+                                </div>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('bloodType')}" th:errors="*{bloodType}"></div>
+                            </div>
+                        </div>
+
+                        <!-- Urgency Level -->
+                        <div class="form-section-title mt-4">
+                            <i class="fas fa-exclamation-circle me-2" style="color: var(--rh-red);"></i>Urgency Level
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="urgency-option urgency-critical"
+                                     th:classappend="${bloodRequestDTO.urgency == 'CRITICAL'} ? 'selected'">
+                                    <input class="form-check-input position-static" type="radio" name="urgency"
+                                           id="urgencyCritical" value="CRITICAL" th:field="*{urgency}">
+                                    <label class="form-label urgency-label mb-0 p-3 w-100" for="urgencyCritical">
+                                        <strong>CRITICAL</strong>
+                                        <small class="d-block text-muted fw-normal">Immediate life risk</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="urgency-option urgency-high"
+                                     th:classappend="${bloodRequestDTO.urgency == 'HIGH'} ? 'selected'">
+                                    <input class="form-check-input position-static" type="radio" name="urgency"
+                                           id="urgencyHigh" value="HIGH" th:field="*{urgency}">
+                                    <label class="form-label urgency-label mb-0 p-3 w-100" for="urgencyHigh">
+                                        <strong>HIGH</strong>
+                                        <small class="d-block text-muted fw-normal">Urgent within 24 hours</small>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="urgency-option urgency-normal"
+                                     th:classappend="${bloodRequestDTO.urgency == 'NORMAL'} ? 'selected'">
+                                    <input class="form-check-input position-static" type="radio" name="urgency"
+                                           id="urgencyNormal" value="NORMAL" th:field="*{urgency}">
+                                    <label class="form-label urgency-label mb-0 p-3 w-100" for="urgencyNormal">
+                                        <strong>NORMAL</strong>
+                                        <small class="d-block text-muted fw-normal">Standard request</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('urgency')}" th:errors="*{urgency}"></div>
+
+                        <!-- Medical Details -->
+                        <div class="form-section-title mt-4">
+                            <i class="fas fa-file-medical me-2" style="color: var(--rh-red);"></i>Medical Details
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="medicalReason" class="form-label fw-semibold">
+                                    Medical Reason <span class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="medicalReason" name="medicalReason" rows="4"
+                                          th:field="*{medicalReason}" required minlength="20" maxlength="2000"
+                                          placeholder="Please describe the medical reason for this blood request (minimum 20 characters)"></textarea>
+                                <div class="form-text">Minimum 20 characters. Be as detailed as possible.</div>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('medicalReason')}" th:errors="*{medicalReason}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <label for="doctorReferralNumber" class="form-label fw-semibold">
+                                    Doctor Referral Number
+                                </label>
+                                <input type="text" class="form-control" id="doctorReferralNumber" name="doctorReferralNumber"
+                                       th:field="*{doctorReferralNumber}" maxlength="100"
+                                       placeholder="Optional referral or patient ID">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('doctorReferralNumber')}" th:errors="*{doctorReferralNumber}"></div>
+                            </div>
+                        </div>
+
+                        <!-- Help Box -->
+                        <div class="row g-3 mt-4">
+                            <div class="col-12">
+                                <div class="help-box">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>What happens next?</strong> After submission, your request will be in <strong>PENDING</strong> status.
+                                    A hospital administrator will review your request and may contact you for additional information.
+                                    If this is a CRITICAL request with zero stock at the selected hospital, an urgent broadcast will be triggered to notify eligible donors in your area.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="row g-3 mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Blood Request
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="compact-footer">
+        <div class="container">
+            <div class="row align-items-center g-3">
+                <div class="col-md-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-heart-pulse"></i>RedHope
+                    </div>
+                    <p class="footer-tagline">Connecting donors with hospitals in real-time to save lives.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <ul class="footer-links">
+                        <li><a href="/signup">Donate Blood</a></li>
+                        <li><a href="/signup">Request Blood</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#knowledge">Blood Knowledge</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to save lives.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var hospitalSelect = document.getElementById('hospital');
+            var hospitalCityInfo = document.getElementById('hospitalCityInfo');
+            var selectedHospitalCity = document.getElementById('selectedHospitalCity');
+            var urgencyOptions = document.querySelectorAll('.urgency-option');
+
+            if (hospitalSelect) {
+                hospitalSelect.addEventListener('change', function() {
+                    var selectedOption = this.options[this.selectedIndex];
+                    var city = selectedOption.getAttribute('data-city');
+                    if (city && city.trim() !== '') {
+                        selectedHospitalCity.textContent = city;
+                        hospitalCityInfo.style.display = 'block';
+                    } else {
+                        hospitalCityInfo.style.display = 'none';
+                    }
+                });
+            }
+
+            urgencyOptions.forEach(function(option) {
+                option.addEventListener('click', function() {
+                    var radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        urgencyOptions.forEach(function(opt) {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.urgency-option input[type="radio"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    urgencyOptions.forEach(function(opt) {
+                        opt.classList.remove('selected');
+                    });
+                    if (this.checked) {
+                        this.closest('.urgency-option').classList.add('selected');
+                    }
+                });
+            });
+
+            var form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            }
+        });
+    </script>
+    <script>
+        (function() {
+            var navbar = document.getElementById('userNav');
+            if (!navbar) return;
+
+            function updateNavbar() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            window.addEventListener('scroll', updateNavbar, { passive: true });
+            updateNavbar();
+        })();
+    </script>
+</body>
+</html>

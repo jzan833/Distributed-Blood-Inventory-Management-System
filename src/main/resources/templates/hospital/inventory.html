@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Inventory - RedHope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+<body class="hospital-page">
+
+    <div class="hospital-mobile-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <nav class="hospital-sidebar" id="hospitalSidebar">
+        <div class="sidebar-brand">
+            <a href="/hospital/dashboard">
+                <i class="fas fa-heartbeat me-2"></i>RedHope
+            </a>
+        </div>
+        <div class="flex-grow-1 overflow-auto py-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/hospital/inventory">
+                        <i class="fas fa-boxes"></i> Manage Inventory
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/requests">
+                        <i class="fas fa-hand-holding-medical"></i> Blood Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hospital/donations">
+                        <i class="fas fa-tint"></i> Blood Donations
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <form th:action="@{/logout}" method="post" class="d-inline w-100">
+                        <button type="submit" class="nav-link border-0 bg-transparent text-white w-100 text-start">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hospital-main-content">
+        <nav class="navbar navbar-dark bg-danger d-lg-none">
+            <div class="container-fluid">
+                <button class="btn btn-link text-white p-0" onclick="toggleSidebar()">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+                <span class="navbar-brand mb-0 h1 fw-bold">RedHope</span>
+                <span class="text-white small" th:text="${hospitalName}">Hospital</span>
+            </div>
+        </nav>
+
+        <div class="container-fluid dashboard-container py-4">
+            <div class="container">
+                <div class="row mb-4 fade-in-up">
+                    <div class="col-12">
+                        <div class="hospital-welcome-modern">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h1 th:text="'Welcome, ' + ${adminName}">Welcome, Admin</h1>
+                                    <p th:text="${hospitalName}">Hospital Name</p>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <span class="badge hospital-badge fs-6">
+                                        <i class="fas fa-hospital me-1"></i>Hospital Admin
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="welcome-visual"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="row g-4 fade-in-up delay-2" th:if="${not #lists.isEmpty(inventory)}">
+                    <div class="col-12">
+                        <div class="section-header-modern">
+                            <h3><i class="fas fa-list-ul"></i>Detailed Inventory</h3>
+                        </div>
+                        <div class="table-container-modern">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table mb-0" id="inventoryTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Blood Type</th>
+                                                <th>Current Stock</th>
+                                                <th>Low Stock Threshold</th>
+                                                <th>Status</th>
+                                                <th style="width: 180px;">Stock Level</th>
+                                                <th style="width: 200px;">Quick Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="item, iter : ${inventory}">
+                                                <td>
+                                                    <span class="fw-semibold" th:text="${item.bloodType.displayName}">A+</span>
+                                                </td>
+                                                <td>
+                                                    <div class="inventory-controls">
+                                                        <button type="button" onclick="adjustStock(this, -1)">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="number" class="form-control form-control-sm text-center"
+                                                               th:attr="value=${item.unitsAvailable}, data-blood-type=${item.bloodType.name()}"
+                                                               th:id="'stock-' + ${item.bloodType.name()}"
+                                                               min="0" step="1" readonly>
+                                                        <button type="button" onclick="adjustStock(this, 1)">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="inventory-controls">
+                                                        <button type="button" onclick="adjustThreshold(this, -1)">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="number" class="form-control form-control-sm text-center"
+                                                               th:attr="value=${item.lowStockThreshold}, data-blood-type=${item.bloodType.name()}"
+                                                               th:id="'threshold-' + ${item.bloodType.name()}"
+                                                               min="0" step="1" readonly>
+                                                        <button type="button" onclick="adjustThreshold(this, 1)">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge-modern"
+                                                          th:attr="data-blood-type=${item.bloodType.name()}"
+                                                          th:id="'status-' + ${item.bloodType.name()}"
+                                                          th:classappend="${item.unitsAvailable == 0 ? 'status-critical' : (item.unitsAvailable < item.lowStockThreshold ? 'status-low' : 'status-ok')}"
+                                                          th:text="${item.unitsAvailable == 0 ? 'Critical' : (item.unitsAvailable < item.lowStockThreshold ? 'Low' : 'In Stock')}">
+                                                        OK
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="stock-progress-mini">
+                                                        <div class="progress-bar-modern"
+                                                             th:attr="data-blood-type=${item.bloodType.name()}"
+                                                             th:id="'progress-' + ${item.bloodType.name()}"
+                                                             th:classappend="${item.unitsAvailable == 0 ? 'bg-danger' : (item.unitsAvailable < item.lowStockThreshold ? 'bg-warning' : 'bg-success')}"
+                                                             th:style="'width: ' + ${item.unitsAvailable * 10 > 100 ? 100 : item.unitsAvailable * 10} + '%'">
+                                                        </div>
+                                                    </div>
+                                                    <small class="text-muted mt-1 d-block" th:id="'stock-text-' + ${item.bloodType.name()}"
+                                                           th:text="|${item.unitsAvailable} / ${item.lowStockThreshold} threshold|">
+                                                        10 / 5 threshold
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn-modern btn-primary-modern"
+                                                            th:attr="data-blood-type=${item.bloodType.name()}"
+                                                            onclick="saveStock(this)">
+                                                        <i class="fas fa-save me-1"></i>Save
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted small mt-2 mb-0">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Use the + / - buttons to adjust stock, then click Save.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="toast-container" id="toastContainer"></div>
+            </div>
+        </div>
+
+        <footer class="hospital-footer">
+            <div class="container text-center">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <input type="hidden" id="csrfToken" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('hospitalSidebar').classList.toggle('show');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
+        function getCsrfToken() {
+            return document.getElementById('csrfToken').value;
+        }
+
+        function adjustStock(btn, delta) {
+            const input = btn.closest('tr').querySelector('input[id^="stock-"]');
+            let current = parseInt(input.value) || 0;
+            let next = current + delta;
+            if (next < 0) next = 0;
+            input.value = next;
+        }
+
+        function adjustThreshold(btn, delta) {
+            const input = btn.closest('tr').querySelector('input[id^="threshold-"]');
+            let current = parseInt(input.value) || 0;
+            let next = current + delta;
+            if (next < 0) next = 0;
+            input.value = next;
+        }
+
+        async function saveStock(btn) {
+            const row = btn.closest('tr');
+            const stockInput = row.querySelector('input[id^="stock-"]');
+            const thresholdInput = row.querySelector('input[id^="threshold-"]');
+            const bloodType = stockInput.id.replace('stock-', '');
+            const unitsAvailable = parseInt(stockInput.value) || 0;
+            const lowStockThreshold = parseInt(thresholdInput.value) || 0;
+
+            const formData = new URLSearchParams();
+            formData.append('bloodType', bloodType);
+            formData.append('unitsAvailable', unitsAvailable);
+            formData.append('lowStockThreshold', lowStockThreshold);
+
+            try {
+                const response = await fetch('/hospital/inventory/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': getCsrfToken()
+                    },
+                    body: formData.toString()
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    updateRowUI(bloodType, result.unitsAvailable, result.lowStockThreshold, result.lastUpdated);
+                    showToast('Stock updated successfully', 'success');
+                } else {
+                    showToast('Failed to update stock', 'danger');
+                }
+            } catch (error) {
+                console.error('Error updating stock:', error);
+                showToast('Error updating stock', 'danger');
+            }
+        }
+
+        async function saveThreshold(btn) {
+            const row = btn.closest('tr');
+            const stockInput = row.querySelector('input[id^="stock-"]');
+            const thresholdInput = row.querySelector('input[id^="threshold-"]');
+            const bloodType = stockInput.getAttribute('data-blood-type');
+            const unitsAvailable = parseInt(stockInput.value) || 0;
+            const lowStockThreshold = parseInt(thresholdInput.value) || 0;
+
+            const formData = new URLSearchParams();
+            formData.append('bloodType', bloodType);
+            formData.append('lowStockThreshold', lowStockThreshold);
+
+            try {
+                const response = await fetch('/hospital/inventory/threshold', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRF-TOKEN': getCsrfToken()
+                    },
+                    body: formData.toString()
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    updateRowUI(bloodType, unitsAvailable, result.lowStockThreshold, result.lastUpdated);
+                    showToast('Threshold updated successfully', 'success');
+                } else {
+                    showToast('Failed to update threshold', 'danger');
+                }
+            } catch (error) {
+                console.error('Error updating threshold:', error);
+                showToast('Error updating threshold', 'danger');
+            }
+        }
+
+        function updateRowUI(bloodType, unitsAvailable, lowStockThreshold, lastUpdated) {
+            const statusBadge = document.getElementById('status-' + bloodType);
+            const progressBar = document.getElementById('progress-' + bloodType);
+            const stockText = document.getElementById('stock-text-' + bloodType);
+
+            let statusClass, statusText, progressClass;
+            if (unitsAvailable === 0) {
+                statusClass = 'status-critical';
+                statusText = 'Critical';
+                progressClass = 'bg-danger';
+            } else if (unitsAvailable < lowStockThreshold) {
+                statusClass = 'status-low';
+                statusText = 'Low';
+                progressClass = 'bg-warning';
+            } else {
+                statusClass = 'status-ok';
+                statusText = 'In Stock';
+                progressClass = 'bg-success';
+            }
+
+            statusBadge.className = 'status-badge-modern ' + statusClass;
+            statusBadge.textContent = statusText;
+
+            progressBar.className = 'progress-bar-modern ' + progressClass;
+            const width = Math.min(unitsAvailable * 10, 100);
+            progressBar.style.width = width + '%';
+
+            stockText.textContent = unitsAvailable + ' / ' + lowStockThreshold + ' threshold';
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+            const toastHtml = `
+                <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', toastHtml);
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+            toast.show();
+            toastElement.addEventListener('hidden.bs.toast', function () {
+                toastElement.remove();
+            });
+        }
+    </script>
+</body>
+</html>

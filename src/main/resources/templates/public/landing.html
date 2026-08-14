@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedHope - Blood Donation Coordination</title>
+    <meta name="description" content="RedHope connects blood donors with hospitals in real-time. Donate blood or request blood through our coordinated platform.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top landing-nav" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-heart-pulse"></i>RedHope
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#knowledge">Blood Knowledge</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sponsors">Our Sponsors</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/login" class="btn btn-nav-login btn-sm">Login</a>
+                    <a href="/signup" class="btn btn-nav-signup btn-sm">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Carousel -->
+    <header class="hero-carousel" id="heroCarousel">
+        <div id="heroSlides" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-1"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card fade-in-up">
+                                <h1 class="hero-title">Saving Lives,<br>One Drop at a Time.</h1>
+                                <p class="hero-subtitle">RedHope connects blood donors with hospitals in real-time, ensuring critical blood requests are met efficiently and lives are saved.</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-hand-holding-heart me-2"></i>Donate Blood
+                                    </a>
+                                    <a href="/signup" class="btn btn-outline-light btn-lg">
+                                        <i class="fas fa-search me-2"></i>Request Blood
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-2"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card">
+                                <h1 class="hero-title">Real-Time Blood<br>Inventory Tracking</h1>
+                                <p class="hero-subtitle">Partner hospitals update live stock counts, preventing wasted donor trips and ensuring critical care is never delayed by uncertainty.</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-hospital me-2"></i>Find Hospitals
+                                    </a>
+                                    <a href="#how-it-works" class="btn btn-outline-light btn-lg">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-3"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card">
+                                <h1 class="hero-title">Urgent Alerts,<br>Immediate Action</h1>
+                                <p class="hero-subtitle">When a hospital faces a critical shortage, RedHope broadcasts urgent requests to eligible donors nearby, enabling rapid response when it matters most.</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-bell me-2"></i>Join the Network
+                                    </a>
+                                    <a href="#knowledge" class="btn btn-outline-light btn-lg">Blood Knowledge</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Custom Indicators -->
+            <div class="carousel-indicators-custom">
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">About RedHope</span>
+                <h2>Connecting Donors With Those in Need</h2>
+                <p>A centralized platform that bridges the gap between blood donors and hospitals, ensuring timely access to safe blood.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Find Blood</h3>
+                        <p>Search for available blood types at partner hospitals near you. Real-time inventory ensures accurate availability.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>Donate Blood</h3>
+                        <p>Schedule donations and help save lives. Our 90-day eligibility tracker ensures safe, compliant donation scheduling.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h3>Hospital Network</h3>
+                        <p>Partner hospitals manage live inventory and coordinate blood requests securely with automated notifications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">How It Works</span>
+                <h2>Three Simple Steps to Save a Life</h2>
+                <p>Getting involved is easy. Whether you want to donate or request blood, RedHope makes the process simple.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Create an Account</h3>
+                        <p>Register as a donor or requester in minutes. Your profile stores your blood type, location, and donation history.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Donate or Request</h3>
+                        <p>Schedule a blood donation or submit a blood request. Hospitals receive notifications and manage inventory in real-time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Save Lives</h3>
+                        <p>Hospitals process requests, coordinate appointments, and update stock. Every action saves lives and builds community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blood Knowledge -->
+    <section id="knowledge" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Blood Knowledge</span>
+                <h2>Understanding Blood Donation</h2>
+                <p>Knowledge empowers action. Learn the basics of blood compatibility, donation safety, and how you can help.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon red">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h4>Blood Types Matter</h4>
+                        <p>There are 8 main blood types. O-negative is the universal donor, while AB-positive is the universal recipient.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon amber">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>90-Day Rule</h4>
+                        <p>Whole blood donors must wait 90 days between donations. This allows your body to replenish iron and red cells safely.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon slate">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <h4>Safe Process</h4>
+                        <p>Every donation is screened, tested, and stored under strict medical protocols. Donating blood is safe for healthy adults.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon red">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Who Can Donate</h4>
+                        <p>Most people between 18-65 years, weighing over 50kg, and in good health can donate. Check your eligibility today.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Urgent Need / Awareness -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="section-label">Critical Need</span>
+                    <h2 class="mb-3">Emergency Blood Requests Require Immediate Action</h2>
+                    <p class="text-muted mb-4">When hospitals face critical shortages, every minute counts. RedHope broadcasts urgent requests to eligible donors in the area, enabling rapid response when it matters most.</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> Real-time urgent broadcast alerts</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> Location-based donor matching</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> Live hospital stock tracking</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> Automated notification system</li>
+                    </ul>
+                    <a href="/signup" class="btn btn-primary btn-lg">Join RedHope Today</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">O-Negative</h5>
+                                    <small class="text-muted">Universal Donor</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3" style="background: var(--rh-amber-light); color: var(--rh-amber);">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">AB-Positive</h5>
+                                    <small class="text-muted">Universal Recipient</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3" style="background: var(--rh-slate-100); color: var(--rh-slate-700);">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">A-Positive</h5>
+                                    <small class="text-muted">Common Type</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">O-Positive</h5>
+                                    <small class="text-muted">Most Needed</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsor Section -->
+    <section class="sponsor-section" id="sponsors">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Sponsors</span>
+                <h2>Supported by Leading Healthcare Partners</h2>
+                <p>Organizations that share our mission to make blood donation accessible, safe, and efficient.</p>
+            </div>
+        </div>
+        <div class="container sponsor-carousel">
+            <div id="sponsorCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-hospital"></i>
+                                    </div>
+                                    <h5>HealthFirst Network</h5>
+                                    <p>Supporting integrated hospital blood management systems across the region.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <h5>MediTrust Labs</h5>
+                                    <p>Providing advanced blood screening and testing infrastructure for safe donations.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-hand-holding-medical"></i>
+                                    </div>
+                                    <h5>CareConnect Foundation</h5>
+                                    <p>Funding community blood drives and donor education programs nationwide.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-heart-pulse"></i>
+                                    </div>
+                                    <h5>CardioVascular Institute</h5>
+                                    <p>Advancing research and awareness for blood-related cardiac treatments.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-microscope"></i>
+                                    </div>
+                                    <h5>BioGenesis Research</h5>
+                                    <p>Innovating blood preservation and compatibility technologies.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-ambulance"></i>
+                                    </div>
+                                    <h5>RapidResponse Medical</h5>
+                                    <p>Emergency logistics partner ensuring critical blood reaches hospitals faster.</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#sponsorCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#sponsorCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Impact</span>
+                <h2>RedHope by the Numbers</h2>
+                <p>Real-time statistics from our network of partner hospitals and active donors.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-value">5k+</div>
+                        <div class="stat-label">Blood Requests</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Blood Donations</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value">2K+</div>
+                        <div class="stat-label">People Helped</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Make a Difference?</h2>
+            <p>Join thousands of donors and hospitals working together to save lives through coordinated blood donation.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/signup" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                </a>
+                <a href="/login" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-right-to-bracket me-2"></i>Sign In
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="compact-footer" id="contact">
+        <div class="container">
+            <div class="row align-items-center g-3">
+                <div class="col-md-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-heart-pulse"></i>RedHope
+                    </div>
+                    <p class="footer-tagline">Connecting donors with hospitals in real-time to save lives.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <ul class="footer-links">
+                        <li><a href="/signup">Donate Blood</a></li>
+                        <li><a href="/signup">Request Blood</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#knowledge">Blood Knowledge</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to save lives.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            var navbar = document.getElementById('mainNav');
+            if (!navbar) return;
+
+            function updateNavbar() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            window.addEventListener('scroll', updateNavbar, { passive: true });
+            updateNavbar();
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = navbar.offsetHeight;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Close mobile menu
+                        const navCollapse = document.getElementById('navbarNav');
+                        const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                        if (bsCollapse && navCollapse.classList.contains('show')) {
+                            bsCollapse.hide();
+                        }
+                    }
+                });
+            });
+
+            // Back to top button
+            var backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 500) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                }, { passive: true });
+
+                backToTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
