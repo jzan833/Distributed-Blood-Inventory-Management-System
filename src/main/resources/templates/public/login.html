@@ -57,7 +57,7 @@
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                     <div class="auth-form-group">
-                        <label for="email">Email address</label>
+                        <label for="email">အီးမေးလ် လိပ်စာ</label>
                         <div class="auth-input-wrapper">
                             <input type="email" class="form-control" id="email" name="email"
                                    placeholder="name@example.com" required autofocus>
@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="auth-form-group">
-                        <label for="password">Password</label>
+                        <label for="password">စကားဝှက်</label>
                         <div class="auth-input-wrapper">
                             <input type="password" class="form-control" id="password" name="password"
                                    placeholder="Enter your password" required>
@@ -79,17 +79,17 @@
 
                     <button type="submit" class="btn btn-primary auth-submit" id="loginSubmit">
                         <span class="spinner"></span>
-                        <span class="btn-text"><i class="fas fa-right-to-bracket me-2"></i>Sign In</span>
+                        <span class="btn-text"><i class="fas fa-right-to-bracket me-2"></i>အကောင့်ဝင်ရန်</span>
                     </button>
                 </form>
 
                 <div class="auth-footer">
-                    Don't have an account? <a href="/signup">Sign up</a>
+                    အကောင့် မရှိသေးဘူးလား? <a href="/signup">အကောင့်သစ်ဖွင့်ရန်</a>
                 </div>
 
                 <div class="auth-security">
                     <i class="fas fa-shield-halved"></i>
-                    Secured by Spring Security with BCrypt encryption
+                    Spring Security နှင့် BCrypt လျှို့ဝှက်ကုဒ်စနစ်တို့ဖြင့် လုံခြုံစွာ ကာကွယ်ထားပါသည်
                 </div>
             </div>
         </div>

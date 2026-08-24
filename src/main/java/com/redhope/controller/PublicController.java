@@ -1,10 +1,5 @@
 package com.redhope.controller;
 
-import com.redhope.dto.request.SignupRequest;
-import com.redhope.entity.User;
-import com.redhope.enums.BloodType;
-import com.redhope.service.AuthService;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.redhope.dto.request.SignupRequest;
+import com.redhope.entity.User;
+import com.redhope.enums.BloodType;
+import com.redhope.service.AuthService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping
@@ -26,6 +28,11 @@ public class PublicController {
 
     @GetMapping("/")
     public String landing() {
+        return "public/landing";
+    }
+    
+    @GetMapping("/redhope")
+    public String redhope() {
         return "public/landing";
     }
 

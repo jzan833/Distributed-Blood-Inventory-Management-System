@@ -12,10 +12,10 @@ spring:
     name: RedHope
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/redhope_db?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
-    username: root
-    password: 
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://mysql-redhope-redhope.c.aivencloud.com:14302/defaultdb?sslMode=REQUIRED
+    username: avnadmin
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
@@ -25,15 +25,15 @@ spring:
 
   sql:
     init:
-      mode: never
+      mode: always
 
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
         jdbc:
           batch_size: 20
@@ -52,8 +52,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: your-exmaple.com
-    password: your-password
+    username: redhope223blood@gmail.com
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -62,7 +62,7 @@ spring:
             enable: true
             required: true
     from:
-      address: ${MAIL_FROM:your-example.com}
+      address: ${MAIL_FROM:redhope223blood@gmail.com}
       name: RedHope Blood Donation System
 
   messages:

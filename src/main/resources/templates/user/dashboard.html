@@ -27,13 +27,13 @@
                         <a class="nav-link active" href="/user/dashboard"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i> Request Blood</a>
+                        <a class="nav-link" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i> သွေးတောင်းခံရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> Donate Blood</a>
+                        <a class="nav-link" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> သွေးလှူဒါန်းရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/history"><i class="fas fa-history me-1"></i> History</a>
+                        <a class="nav-link" href="/user/history"><i class="fas fa-history me-1"></i> မှတ်တမ်း</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center user-area">
@@ -42,7 +42,7 @@
                     <form th:action="@{/logout}" method="post" class="d-inline">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <button type="submit" class="btn-logout">
-                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">Logout</span>
+                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">ထွက်မည်</span>
                         </button>
                     </form>
                 </div>
@@ -67,8 +67,8 @@
                         <div class="row align-items-center">
                             <div class="col-md-8">
                                 <span class="section-label">Dashboard</span>
-                                <h1 th:text="'Welcome back, ' + ${userName}">Welcome back, John Doe</h1>
-                                <p class="mb-0">Your blood donation and request dashboard — track eligibility, manage requests, and save lives.</p>
+                                <h1 th:text="'ပြန်လည်ကြိုဆိုပါတယ်, ' + ${userName}">ပြန်လည်ကြိုဆိုပါတယ်၊ John Doe</h1>
+                                <p class="mb-0">သင့်၏ သွေးလှူဒါန်းမှုနှင့် သွေးတောင်းခံမှုဆိုင်ရာ Dashboard — သွေးလှူဒါန်းနိုင်ခွင့် အခြေအနေကို စစ်ဆေးစောင့်ကြည့်ပါ၊ သွေးတောင်းခံမှုများကို စီမံခန့်ခွဲပါ၊ အသက်ပေါင်းများစွာကို ကယ်တင်ပါ။</p>
                             </div>
                             <div class="col-md-4 text-md-end mt-3 mt-md-0">
                                 <span class="badge blood-type-badge"
@@ -89,7 +89,7 @@
                          th:data-next-eligible-date="${eligibility.nextEligibleDate != null ? #temporals.format(eligibility.nextEligibleDate, 'yyyy-MM-dd') : ''}">
                         <div class="text-center">
                             <h5 class="fw-semibold mb-3" style="color: var(--rh-slate-900);">
-                                <i class="fas fa-clipboard-check me-2" style="color: var(--rh-red);"></i>Donation Eligibility
+                                <i class="fas fa-clipboard-check me-2" style="color: var(--rh-red);"></i>သွေးလှူဒါန်းနိုင်မှု အခြေအနေ
                             </h5>
                             <div th:if="${eligibility.eligible}" class="py-2">
                                 <div class="eligibility-ring-container">
@@ -103,16 +103,16 @@
                                         <div class="eligibility-ring-icon eligible">
                                             <i class="fas fa-check"></i>
                                         </div>
-                                        <div class="eligibility-status" style="color: var(--rh-red);">ELIGIBLE</div>
-                                        <div class="eligibility-subtitle">Ready to Donate</div>
+                                        <div class="eligibility-status" style="color: var(--rh-red);">လှူဒါန်းနိုင်ပါသည်</div>
+                                        <div class="eligibility-subtitle">သွေးလှူဒါန်းရန် အသင့်ဖြစ်ပါပြီ</div>
                                     </div>
                                 </div>
                                 <a href="/user/donate-blood" class="btn btn-primary btn-lg" style="border-radius: var(--rh-radius);">
-                                    <i class="fas fa-tint me-2"></i>Donate Now
+                                    <i class="fas fa-tint me-2"></i>ယခုပဲ သွေးလှူဒါန်းမည်
                                 </a>
                                 <div th:if="${eligibility.lastDonationDate != null}" class="mt-3">
                                     <small class="text-muted">
-                                        Last donation: <span th:text="${#temporals.format(eligibility.lastDonationDate, 'MMM d, yyyy')}"></span>
+                                        နောက်ဆုံး သွေးလှူဒါန်းခဲ့သည့်ရက် -<span th:text="${#temporals.format(eligibility.lastDonationDate, 'MMM d, yyyy')}"></span>
                                     </small>
                                 </div>
                             </div>
@@ -128,22 +128,22 @@
                                         <div class="eligibility-ring-icon locked">
                                             <i class="fas fa-lock"></i>
                                         </div>
-                                        <div class="eligibility-status locked-status">LOCKED</div>
-                                        <div class="eligibility-subtitle">Not Yet Eligible</div>
+                                        <div class="eligibility-status locked-status">မရသေးပါ</div>
+                                        <div class="eligibility-subtitle">သွေးလှူဒါန်းရန် မပြည့်မီသေးပါ</div>
                                     </div>
                                 </div>
                                 <div id="countdown-timer" class="my-3"></div>
                                 <div th:if="${eligibility.lastDonationDate != null}" class="mt-3">
                                     <small class="text-muted">
-                                        Last donation: <span th:text="${#temporals.format(eligibility.lastDonationDate, 'MMM d, yyyy')}"></span>
+                                        နောက်ဆုံး သွေးလှူဒါန်းခဲ့သည့်ရက် -<span th:text="${#temporals.format(eligibility.lastDonationDate, 'MMM d, yyyy')}"></span>
                                     </small>
                                     <br>
                                     <small class="text-muted">
-                                        Next eligible: <span class="next-date" th:text="${#temporals.format(eligibility.nextEligibleDate, 'MMM d, yyyy')}"></span>
+                                        နောက်တစ်ကြိမ် သွေးလှူဒါန်းနိုင်မည့်ရက် -<span class="next-date" th:text="${#temporals.format(eligibility.nextEligibleDate, 'MMM d, yyyy')}"></span>
                                     </small>
                                 </div>
                                 <button class="btn btn-outline-secondary mt-3" disabled style="border-radius: var(--rh-radius);">
-                                    <i class="fas fa-tint-slash me-2"></i>Donation Locked
+                                    <i class="fas fa-tint-slash me-2"></i>သွေးလှူဒါန်းခွင့် ပိတ်ထားသည်
                                 </button>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                 <div class="col-lg-6 fade-in-up delay-2">
                     <div class="status-timeline">
                         <h5 class="fw-semibold mb-3" style="color: var(--rh-slate-900);">
-                            <i class="fas fa-list-alt me-2" style="color: var(--rh-red);"></i>Request Status
+                            <i class="fas fa-list-alt me-2" style="color: var(--rh-red);"></i>တောင်းခံမှု အခြေအနေ
                         </h5>
                         <div th:if="${stepper.showStepper}">
                             <div class="timeline">
@@ -162,8 +162,8 @@
                                         <i class="fas fa-file-alt"></i>
                                     </div>
                                     <div class="timeline-content">
-                                        <div class="timeline-title">Submitted</div>
-                                        <p class="timeline-desc">Your request has been submitted successfully.</p>
+                                        <div class="timeline-title">ပေးပို့ပြီးပြီ</div>
+                                        <p class="timeline-desc">သင့်၏ တောင်းခံမှုကို အောင်မြင်စွာ ပေးပို့ပြီးပါပြီ။</p>
                                     </div>
                                 </div>
                                 <div class="timeline-item" th:classappend="${stepper.currentStep >= 2 ? (stepper.currentStep == 2 ? 'active' : 'completed') : 'pending'}">
@@ -171,31 +171,31 @@
                                         <i class="fas fa-check-circle"></i>
                                     </div>
                                     <div class="timeline-content">
-                                        <div class="timeline-title">Reviewing</div>
-                                        <p class="timeline-desc" th:text="${stepper.currentStep >= 2 ? 'Administrator is reviewing your request.' : 'Waiting for review.'}">Administrator is reviewing your request.</p>
+                                        <div class="timeline-title">စစ်ဆေးနေပါသည်</div>
+                                        <p class="timeline-desc" th:text="${stepper.currentStep >= 2 ? 'သင့်၏ တောင်းဆိုချက်ကို ဆေးရုံAdmin က စစ်ဆေးနေပါသည်။' : 'စစ်ဆေးမှုကို စောင့်ဆိုင်းနေဆဲဖြစ်ပါသည်။'}">အက်ဒမင်မှ သင့်တောင်းခံမှုကို စစ်ဆေးနေပါသည်။</p>
                                     </div>
                                 </div>
-                                <div class="timeline-item" th:classappend="${stepper.currentStep >= 3 ? 'completed' : 'pending'}">
+                                <div class="timeline-item" th:classappend="${stepper.currentStep >= 3 ? 'လုပ်ငန်းစဉ် ပြီးစီးသွားပါပြီ။' : 'စောင့်ဆိုင်းဆဲ'}">
                                     <div class="timeline-dot">
                                         <i class="fas fa-syringe"></i>
                                     </div>
                                     <div class="timeline-content">
-                                        <div class="timeline-title">Completed</div>
-                                        <p class="timeline-desc" th:text="${stepper.currentStep >= 3 ? 'Your request has been fulfilled.' : 'Awaiting completion.'}">Awaiting completion.</p>
+                                        <div class="timeline-title">လုပ်ငန်းစဉ် ပြီးစီးသွားပါပြီ။</div>
+                                        <p class="timeline-desc" th:text="${stepper.currentStep >= 3 ? 'သင်၏ တောင်းဆိုချက် အဆင်ပြေစွာ ပြီးမြောက်သွားပါပြီ။' : 'လုပ်ငန်းစဉ် ပြီးစီးရန် စောင့်ဆိုင်းနေဆဲဖြစ်ပါသည်။'}">ပြီးစီးရန် စောင့်ဆိုင်းနေပါသည်။</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-3 text-center">
-                                <p class="text-muted small mb-0" th:text="${stepper.message}">Your most recent request is currently pending review.</p>
+                                <p class="text-muted small mb-0" th:text="${stepper.message}">သင့်၏ နောက်ဆုံး တောင်းခံမှုမှာ လက်ရှိတွင် စစ်ဆေးရန် စောင့်ဆိုင်းနေပါသည်။</p>
                             </div>
                         </div>
                         <div th:unless="${stepper.showStepper}" class="text-center py-4">
                             <div class="mb-3">
                                 <i class="fas fa-info-circle fa-2x text-muted"></i>
                             </div>
-                            <p class="text-muted" th:text="${stepper.message}">No requests or donations found.</p>
+                            <p class="text-muted" th:text="${stepper.message}">တောင်းခံမှု သို့မဟုတ် လှူဒါန်းမှု မှတ်တမ်း မတွေ့ရှိပါ။</p>
                             <a href="/user/request-blood" class="btn btn-outline-primary btn-sm mt-2">
-                                <i class="fas fa-plus me-1"></i>Submit First Request
+                                <i class="fas fa-plus me-1"></i>ပထမဆုံး တောင်းခံမှု ပေးပို့ရန်
                             </a>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
             <div class="row g-3 mb-4 fade-in-up delay-2">
                 <div class="col-12">
                     <h3 class="fw-semibold mb-3">
-                        <i class="fas fa-exclamation-triangle me-2" style="color: var(--rh-red);"></i>Urgent Need
+                        <i class="fas fa-exclamation-triangle me-2" style="color: var(--rh-red);"></i>အရေးပေါ် လိုအပ်ချက်များ
                     </h3>
                     <div th:if="${!urgentNeeds.empty}">
                         <div class="row g-3">
@@ -216,14 +216,14 @@
                                         <div class="urgent-visual">
                                             <i class="fas fa-droplet"></i>
                                         </div>
-                                        <span class="badge urgency-badge" th:classappend="${need.urgencyBadgeClass}" th:text="${need.urgencyDisplayName}">Critical</span>
+                                        <span class="badge urgency-badge" th:classappend="${need.urgencyBadgeClass}" th:text="${need.urgencyDisplayName}">အလွန်အရေးကြီး</span>
                                     </div>
                                     <div class="urgent-hospital">
-                                        <div class="fw-semibold" th:text="${need.hospitalName}">Hospital Name</div>
-                                        <small class="text-muted" th:text="${need.requestedAt}">Jan 1, 2024</small>
+                                        <div class="fw-semibold" th:text="${need.hospitalName}">ဆေးရုံအမည်</div>
+                                        <small class="text-muted" th:text="${need.requestedAt}">ဇန်နဝါရီ ၁၊ ၂၀၂၄</small>
                                     </div>
                                     <div class="urgent-blood-type">
-                                        <div class="blood-type-label">Blood Type Needed</div>
+                                        <div class="blood-type-label">လိုအပ်သော သွေးအမျိုးအစား</div>
                                         <span class="badge blood-type-badge blood-type-prominent" th:text="${need.bloodTypeDisplayName}">O+</span>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@
                         <div class="mb-3">
                             <i class="fas fa-info-circle fa-2x text-muted"></i>
                         </div>
-                        <p class="text-muted">There are currently no matching urgent blood needs for your blood group in your area.</p>
+                        <p class="text-muted">လက်ရှိတွင် သင့်ဧရိယာအတွင်း သင့်သွေးအမျိုးအစားနှင့် ကိုက်ညီသော အရေးပေါ် သွေးလိုအပ်ချက်များ မရှိသေးပါ။</p>
                     </div>
                 </div>
             </div>
@@ -243,7 +243,7 @@
             <div class="row g-3 mb-4 fade-in-up delay-3">
                 <div class="col-12">
                     <h3 class="fw-semibold mb-3">
-                        <i class="fas fa-bolt me-2" style="color: var(--rh-red);"></i>Quick Actions
+                        <i class="fas fa-bolt me-2" style="color: var(--rh-red);"></i>လျင်မြန်သော လုပ်ဆောင်ချက်များ
                     </h3>
                     <div class="row g-3">
                         <div class="col-md-4">
@@ -251,7 +251,7 @@
                                 <div class="quick-action-icon red">
                                     <i class="fas fa-hand-holding-medical"></i>
                                 </div>
-                                <h6>Request Blood</h6>
+                                <h6>သွေးတောင်းခံရန်</h6>
                             </a>
                         </div>
                         <div class="col-md-4">
@@ -259,7 +259,7 @@
                                 <div class="quick-action-icon teal">
                                     <i class="fas fa-tint"></i>
                                 </div>
-                                <h6>Donate Blood</h6>
+                                <h6>သွေးလှူဒါန်းရန်</h6>
                             </a>
                         </div>
                         <div class="col-md-4">
@@ -267,7 +267,7 @@
                                 <div class="quick-action-icon red">
                                     <i class="fas fa-history"></i>
                                 </div>
-                                <h6>View History</h6>
+                                <h6>မှတ်တမ်းကြည့်ရန်</h6>
                             </a>
                         </div>
                     </div>
@@ -278,15 +278,15 @@
             <div class="row g-4 mb-4 fade-in-up delay-3">
                 <div class="col-12">
                     <h3 class="fw-semibold mb-3">
-                        <i class="fas fa-history me-2" style="color: var(--rh-red);"></i>Recent Activities
+                        <i class="fas fa-history me-2" style="color: var(--rh-red);"></i>လတ်တလော လှုပ်ရှားမှုများ
                     </h3>
                     <div th:if="${recentActivity.empty}" class="empty-state">
                         <div class="empty-icon">
                             <i class="fas fa-inbox"></i>
                         </div>
-                        <p class="text-muted mb-0">No recent requests or donations found.</p>
+                        <p class="text-muted mb-0">လတ်တလော တောင်းခံမှု သို့မဟုတ် လှူဒါန်းမှု မှတ်တမ်း မတွေ့ရှိပါ။</p>
                         <a href="/user/request-blood" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus me-1"></i>Submit a Blood Request
+                            <i class="fas fa-plus me-1"></i>သွေးတောင်းခံမှု တင်သွင်းရန်
                         </a>
                     </div>
                     <div th:unless="${recentActivity.empty}">
@@ -296,17 +296,17 @@
                                     <i th:classappend="${activity.type == 'request' ? 'fas fa-hand-holding-medical' : 'fas fa-tint'}"></i>
                                 </div>
                                 <div class="activity-content">
-                                    <div class="activity-title" th:text="${activity.type == 'request' ? 'Blood Request' : 'Blood Donation'}">Blood Request</div>
+                                    <div class="activity-title" th:text="${activity.type == 'request' ? 'Blood Request' : 'Blood Donation'}">သွေးတောင်းခံမှု</div>
                                     <div class="activity-meta">
-                                        <span th:text="${activity.hospitalName}">City Medical Hospital</span>
-                                        <span th:if="${activity.type == 'request'}"> · <span th:text="${activity.urgencyDisplayName}">Critical</span></span>
-                                        <span th:if="${activity.type == 'donation'}"> · <span th:text="${activity.preferredDate}">Jan 20, 2024</span></span>
+                                        <span th:text="${activity.hospitalName}">မြို့တော် ဆေးရုံကြီး</span>
+                                        <span th:if="${activity.type == 'request'}"> · <span th:text="${activity.urgencyDisplayName}">အလွန်အရေးကြီး</span></span>
+                                        <span th:if="${activity.type == 'donation'}"> · <span th:text="${activity.preferredDate}">ဇန် ၂၀၊ ၂၀၂၄</span></span>
                                     </div>
                                 </div>
                                 <div class="activity-status">
                                     <span class="badge status-badge"
                                           th:classappend="${activity.statusBadgeClass}"
-                                          th:text="${activity.statusDisplayName}">Pending Review</span>
+                                          th:text="${activity.statusDisplayName}">စစ်ဆေးရန် စောင့်ဆိုင်းနေပါသည်</span>
                                 </div>
                             </li>
                         </ul>
@@ -324,7 +324,7 @@
                     <div class="footer-brand">
                         <i class="fas fa-heart-pulse"></i>RedHope
                     </div>
-                    <p class="footer-tagline">Connecting donors with hospitals in real-time to save lives.</p>
+                    <p class="footer-tagline">အသက်ပေါင်းများစွာကို ကယ်တင်နိုင်ရန် သွေးလှူရှင်များနှင့် ဆေးရုံများကို တိုက်ရိုက် ချိတ်ဆက်ပေးနေပါသည်။</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -334,19 +334,19 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="footer-links">
-                        <li><a href="/signup">Donate Blood</a></li>
-                        <li><a href="/signup">Request Blood</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#knowledge">Blood Knowledge</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="/signup">သွေးလှူဒါန်းရန်</a></li>
+                        <li><a href="/signup">သွေးတောင်းခံရန်</a></li>
+                        <li><a href="#how-it-works">လုပ်ဆောင်ပုံ အဆင့်ဆင့်</a></li>
+                        <li><a href="#knowledge">သွေးဆိုင်ရာ ဗဟုသုတများ</a></li>
+                        <li><a href="#about">ကျွန်ုပ်တို့အကြောင်း</a></li>
+                        <li><a href="#">ဆက်သွယ်ရန်</a></li>
+                        <li><a href="#">ကိုယ်ရေးအချက်အလက် မူဝါဒ</a></li>
+                        <li><a href="#">ဝန်ဆောင်မှု စည်းမျဉ်းများ</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to save lives.</p>
+                <p class="mb-0">&copy; 2026 RedHope.မူပိုင်ခွင့်များအားလုံး လက်ဝယ်ထားရှိပြီးဖြစ်သည်။ အသက်ပေါင်းများစွာကို ကယ်တင်နိုင်ရန် ဂရုစိုက်ဖန်တီးထားပါသည်။</p>
             </div>
         </div>
     </footer>

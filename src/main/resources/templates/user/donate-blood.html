@@ -27,13 +27,13 @@
                         <a class="nav-link" href="/user/dashboard"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i> Request Blood</a>
+                        <a class="nav-link" href="/user/request-blood"><i class="fas fa-hand-holding-medical me-1"></i>သွေးတောင်းခံရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> Donate Blood</a>
+                        <a class="nav-link active" href="/user/donate-blood"><i class="fas fa-tint me-1"></i> သွေးလှူဒါန်းရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/history"><i class="fas fa-history me-1"></i> History</a>
+                        <a class="nav-link" href="/user/history"><i class="fas fa-history me-1"></i> မှတ်တမ်း</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center user-area">
@@ -42,7 +42,7 @@
                     <form th:action="@{/logout}" method="post" class="d-inline">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <button type="submit" class="btn-logout">
-                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">Logout</span>
+                            <i class="fas fa-sign-out-alt"></i> <span class="d-none d-sm-inline">ထွက်မည်</span>
                         </button>
                     </form>
                 </div>
@@ -60,9 +60,9 @@
         <div class="container py-4">
             <!-- Page Header -->
             <div class="page-header fade-in-up">
-                <span class="section-label">Donate Blood</span>
-                <h2>Donate Blood</h2>
-                <p>Schedule a blood donation appointment at a partner hospital. Your contribution can save up to three lives.</p>
+                <span class="section-label">သွေးလှူဒါန်းရန်</span>
+                <h2>သွေးလှူဒါန်းရန်</h2>
+                <p>မိတ်ဖက်ဆေးရုံတွင် သွေးလှူဒါန်းရန် ရက်ချိန်းရယူပါ။ သင့်၏ သွေးလှူဒါန်းမှုသည် လူပေါင်း သုံးဦးအထိ အသက်ကို ကယ်တင်နိုင်ပါသည်။</p>
             </div>
 
             <!-- Alerts -->
@@ -85,17 +85,17 @@
                         <div class="eligibility-locked-icon">
                             <i class="fas fa-lock"></i>
                         </div>
-                        <h3 class="eligibility-locked-title">Donation Eligibility Locked</h3>
+                        <h3 class="eligibility-locked-title">သွေးလှူဒါန်းခွင့် ခေတ္တပိတ်ထားပါသည်</h3>
                         <p class="eligibility-locked-desc">
-                            You must wait <strong th:text="${eligibility.daysUntilEligible}">X</strong> more days before donating again.
+                            ထပ်မံ မလှူဒါန်းမီ နောက်ထပ်<strong th:text="${eligibility.daysUntilEligible}">X</strong> ရက် စောင့်ဆိုင်းရပါမည်။
                         </p>
                         <div class="eligibility-info-box">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Next eligible date:</strong> <span th:text="${eligibility.nextEligibleDate}">YYYY-MM-DD</span>
-                            <br><small>This 90-day waiting period ensures your body has fully replenished iron and red blood cells.</small>
+                            <strong>နောက်တစ်ကြိမ် လှူဒါန်းနိုင်သည့်ရက် -</strong> <span th:text="${eligibility.nextEligibleDate}">YYYY-MM-DD</span>
+                            <br><small>ဤ ရက်ပေါင်း ၉၀ စောင့်ဆိုင်းရသည့် ကာလသည် သင့်ခန္ဓာကိုယ်မှ သံဓာတ်နှင့် သွေးနီဥများကို အပြည့်အဝ ပြန်လည်ဖြည့်တင်းပေးနိုင်ရန် ဖြစ်ပါသည်။</small>
                         </div>
                         <a href="/user/dashboard" class="btn btn-outline-primary">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard(ဒက်ရှ်ဘုတ်သို့ ပြန်သွားရန်)
                         </a>
                     </div>
                 </div>
@@ -106,13 +106,13 @@
                 <!-- Left: Visual / Info -->
                 <div class="page-visual">
                     <div class="page-visual-content">
-                        <span class="section-label">Make an Impact</span>
-                        <h3>Your Donation<br>Saves Lives</h3>
-                        <p>A single blood donation can save up to three lives. Schedule your appointment today.</p>
+                        <span class="section-label">အပြောင်းအလဲတစ်ခု ဖန်တီးပါ</span>
+                        <h3>သင့်၏ သွေးလှူဒါန်းမှုသည်<br>အသက်ပေါင်းများစွာကို ကယ်တင်နိုင်ပါသည်</h3>
+                        <p>တစ်ကြိမ် သွေးလှူဒါန်းရုံဖြင့် လူသုံးဦးအထိ အသက်ကို ကယ်တင်နိုင်ပါသည်။ ယနေ့ပဲ ရက်ချိန်းရယူလိုက်ပါ။</p>
                         <ul class="visual-features">
-                            <li><i class="fas fa-check-circle"></i> Quick and safe process</li>
-                            <li><i class="fas fa-check-circle"></i> Professional medical staff</li>
-                            <li><i class="fas fa-check-circle"></i> Help up to 3 patients</li>
+                            <li><i class="fas fa-check-circle"></i> မြန်ဆန်ပြီး ဘေးကင်းလုံခြုံသော လုပ်ငန်းစဉ်</li>
+                            <li><i class="fas fa-check-circle"></i> ကျွမ်းကျင်သော ဆေးဘက်ဆိုင်ရာ ဝန်ထမ်းများ</li>
+                            <li><i class="fas fa-check-circle"></i> လူနာ ၃ ဦးအထိ ကူညီပေးနိုင်ခြင်း</li>
                         </ul>
                     </div>
                     <div class="page-visual-3d">
@@ -131,51 +131,51 @@
                         <input type="hidden" th:field="*{healthChecklistPassed}" id="healthChecklistPassed"/>
 
                         <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger" role="alert">
-                            <i class="fas fa-exclamation-circle me-2"></i>Please correct the errors below.
+                            <i class="fas fa-exclamation-circle me-2"></i>အောက်ပါ မှားယွင်းချက်များကို ပြင်ဆင်ပေးပါ။
                         </div>
 
                         <!-- Appointment Details -->
                         <div class="form-section-title">
-                            <i class="fas fa-calendar-check me-2" style="color: var(--rh-red);"></i>Appointment Details
+                            <i class="fas fa-calendar-check me-2" style="color: var(--rh-red);"></i>ရက်ချိန်းဆိုင်ရာ အချက်အလက်များ
                         </div>
 
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="hospital" class="form-label fw-semibold">
-                                    Partner Hospital <span class="text-danger">*</span>
+                                    မိတ်ဖက် ဆေးရုံ <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select" id="hospital" name="hospitalId" th:field="*{hospitalId}" required>
-                                    <option value="">Select a hospital</option>
+                                    <option value="">ဆေးရုံ ရွေးချယ်ပါ</option>
                                     <option th:each="hospital : ${hospitals}"
                                             th:value="${hospital.id}"
-                                            th:text="${hospital.name}">Hospital Name</option>
+                                            th:text="${hospital.name}">ဆေးရုံအမည်</option>
                                 </select>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('hospitalId')}" th:errors="*{hospitalId}"></div>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="preferredDate" class="form-label fw-semibold">
-                                    Preferred Donation Date <span class="text-danger">*</span>
+                                    လှူဒါန်းလိုသည့်ရက် <span class="text-danger">*</span>
                                 </label>
                                 <input type="date" class="form-control" id="preferredDate" name="preferredDate"
                                        th:field="*{preferredDate}" required>
-                                <div class="form-text">Please select a date starting from tomorrow.</div>
+                                <div class="form-text">မနက်ဖြန်မှစ၍ ရက်စွဲတစ်ခု ရွေးချယ်ပေးပါ။</div>
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('preferredDate')}" th:errors="*{preferredDate}"></div>
                             </div>
                         </div>
 
                         <!-- Health Pre-screening -->
                         <div class="form-section-title mt-4">
-                            <i class="fas fa-heart-pulse me-2" style="color: var(--rh-red);"></i>Health Pre-screening Checklist
+                            <i class="fas fa-heart-pulse me-2" style="color: var(--rh-red);"></i>ကျန်းမာရေး ကြိုတင်စစ်ဆေးမှု စာရင်း
                         </div>
-                        <p class="text-muted small mb-3">Please confirm all of the following before donating:</p>
+                        <p class="text-muted small mb-3">သွေးမလှူဒါန်းမီ အောက်ပါအချက်များအားလုံးကို အတည်ပြုပေးပါ-</p>
 
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="checklist-item" id="checklist1">
                                     <input class="form-check-input" type="checkbox" value="" id="chk1" required>
                                     <label class="form-check-label" for="chk1">
-                                        Weight greater than 50 kg
+                                        ကိုယ်အလေးချိန် ၅၀ ကီလိုဂရမ် (၁၁၀ ပေါင်) ထက်ကျော်လွန်ခြင်း
                                     </label>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                                 <div class="checklist-item" id="checklist2">
                                     <input class="form-check-input" type="checkbox" value="" id="chk2" required>
                                     <label class="form-check-label" for="chk2">
-                                        Age between 18 and 65 years
+                                        အသက် ၁၈ နှစ်မှ ၆၅ နှစ်ကြား ဖြစ်ခြင်း
                                     </label>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                                 <div class="checklist-item" id="checklist3">
                                     <input class="form-check-input" type="checkbox" value="" id="chk3" required>
                                     <label class="form-check-label" for="chk3">
-                                        No fever in the last 2 weeks
+                                        လွန်ခဲ့သော ၂ ပတ်အတွင်း ဖျားနာမှု မရှိခြင်း
                                     </label>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                                 <div class="checklist-item" id="checklist4">
                                     <input class="form-check-input" type="checkbox" value="" id="chk4" required>
                                     <label class="form-check-label" for="chk4">
-                                        Not currently on medication
+                                        လက်ရှိတွင် သောက်ဆေးများ သောက်သုံးနေခြင်း မရှိခြင်း
                                     </label>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                                 <div class="checklist-item" id="checklist5">
                                     <input class="form-check-input" type="checkbox" value="" id="chk5" required>
                                     <label class="form-check-label" for="chk5">
-                                        No recent surgery
+                                        လတ်တလော ခွဲစိတ်ကုသမှု ခံယူထားခြင်း မရှိခြင်း
                                     </label>
                                 </div>
                             </div>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="invalid-feedback d-block mt-2" id="checklistError" th:if="${#fields.hasErrors('healthChecklistPassed')}" th:errors="*{healthChecklistPassed}">
-                            You must confirm all health checklist items to proceed.
+                            ရှေ့ဆက်သွားရန် ကျန်းမာရေး စစ်ဆေးချက် အချက်အလက်များအားလုံးကို အတည်ပြုပေးရပါမည်။
                         </div>
 
                         <!-- Help Box -->
@@ -229,8 +229,8 @@
                             <div class="col-12">
                                 <div class="help-box">
                                     <i class="fas fa-info-circle me-2"></i>
-                                    <strong>What happens next?</strong> After submission, your donation appointment will be in <strong>PENDING</strong> status.
-                                    A hospital administrator will review your appointment and confirm the slot.
+                                    <strong>နောက်တစ်ဆင့်မှာ ဘာဖြစ်မလဲ။</strong> ပေးပို့ပြီးပါက သင့်၏ သွေးလှူဒါန်းမှု ရက်ချိန်းသည် <strong>စစ်ဆေးရန် စောင့်ဆိုင်းနေသည်</strong> အခြေအနေသို့ ရောက်ရှိသွားပါမည်။
+                                    ဆေးရုံ အက်ဒမင်မှ သင့်ရက်ချိန်းကို စစ်ဆေးအတည်ပြုပေးပါလိမ့်မည်။
                                 </div>
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                         <div class="row g-3 mt-4">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary btn-lg w-100" id="submitBtn">
-                                    <i class="fas fa-paper-plane me-2"></i>Schedule Donation Appointment
+                                    <i class="fas fa-paper-plane me-2"></i>သွေးလှူဒါန်းရန် ရက်ချိန်းရယူမည်
                                 </button>
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                     <div class="footer-brand">
                         <i class="fas fa-heart-pulse"></i>RedHope
                     </div>
-                    <p class="footer-tagline">Connecting donors with hospitals in real-time to save lives.</p>
+                    <p class="footer-tagline">အသက်ပေါင်းများစွာကို ကယ်တင်နိုင်ရန် သွေးလှူရှင်များနှင့် ဆေးရုံများကို တိုက်ရိုက် ချိတ်ဆက်ပေးနေပါသည်။</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -267,19 +267,19 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="footer-links">
-                        <li><a href="/signup">Donate Blood</a></li>
-                        <li><a href="/signup">Request Blood</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#knowledge">Blood Knowledge</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="/signup">သွေးလှူဒါန်းရန်</a></li>
+                        <li><a href="/signup">သွေးတောင်းခံရန်</a></li>
+                        <li><a href="#how-it-works">လုပ်ဆောင်ပုံ အဆင့်ဆင့်</a></li>
+                        <li><a href="#knowledge">သွေးဆိုင်ရာ ဗဟုသုတများ</a></li>
+                        <li><a href="#about">ကျွန်ုပ်တို့အကြောင်း</a></li>
+                        <li><a href="#">ဆက်သွယ်ရန်</a></li>
+                        <li><a href="#">ကိုယ်ရေးအချက်အလက် မူဝါဒ</a></li>
+                        <li><a href="#">ဝန်ဆောင်မှု စည်းမျဉ်းများ</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to save lives.</p>
+                <p class="mb-0">&copy; 2026 RedHope. မူပိုင်ခွင့်များအားလုံး လက်ဝယ်ထားရှိပြီးဖြစ်သည်။ အသက်ပေါင်းများစွာကို ကယ်တင်နိုင်ရန် ဂရုစိုက်ဖန်တီးထားပါသည်။</p>
             </div>
         </div>
     </footer>
