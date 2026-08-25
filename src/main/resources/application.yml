@@ -14,7 +14,8 @@ spring:
   datasource:
     url: jdbc:mariadb://mysql-redhope-redhope.c.aivencloud.com:14302/defaultdb?sslMode=REQUIRED
     username: avnadmin
-    password: ${DB_PASSWORD}
+    password: #${DB_PASSWORD}
+    
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -53,7 +54,8 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: redhope223blood@gmail.com
-    password: ${MAIL_PASSWORD}
+    password: #${MAIL_PASSWORD}
+    
     properties:
       mail:
         smtp:

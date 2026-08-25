@@ -3,104 +3,724 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - RedHope</title>
+    <title>RedHope - Blood Donation Coordination</title>
+    <meta name="description" content="RedHope connects blood donors with hospitals in real-time. Donate blood or request blood through our coordinated platform.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
-    <link href="/css/auth.css" rel="stylesheet">
+    <link href="/css/landing.css" rel="stylesheet">
 </head>
-<body class="auth-page">
+<body>
 
-    <!-- 3D Background Shapes -->
-    <div class="auth-3d-shapes">
-        <div class="auth-3d-drop"></div>
-        <div class="auth-3d-ring"></div>
-        <div class="auth-3d-ring"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-    </div>
-
-    <div class="auth-container">
-        <a href="/" class="auth-back-btn">
-            <i class="fas fa-arrow-left me-1"></i> Back to Home
-        </a>
-
-        <div class="auth-card">
-            <div class="auth-card-body">
-                <div class="auth-brand">
-                    <div class="auth-brand-icon">
-                        <i class="fas fa-heart-pulse"></i>
-                    </div>
-                    <h1>Welcome Back</h1>
-                    <p>Sign in to your RedHope account</p>
-                </div>
-
-                <div th:if="${param.error}" class="auth-alert auth-alert-danger" role="alert">
-                    <i class="fas fa-circle-exclamation"></i>
-                    <div>Invalid email or password. Please try again.</div>
-                </div>
-
-                <div th:if="${param.logout}" class="auth-alert auth-alert-success" role="alert">
-                    <i class="fas fa-circle-check"></i>
-                    <div>You have been logged out successfully.</div>
-                </div>
-
-                <div th:if="${successMessage}" class="auth-alert auth-alert-success" role="alert">
-                    <i class="fas fa-circle-check"></i>
-                    <div th:text="${successMessage}"></div>
-                </div>
-
-                <form th:action="@{/login}" method="post" id="loginForm">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-                    <div class="auth-form-group">
-                        <label for="email">အီးမေးလ် လိပ်စာ</label>
-                        <div class="auth-input-wrapper">
-                            <input type="email" class="form-control" id="email" name="email"
-                                   placeholder="name@example.com" required autofocus>
-                            <i class="fas fa-envelope input-icon"></i>
-                        </div>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label for="password">စကားဝှက်</label>
-                        <div class="auth-input-wrapper">
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="Enter your password" required>
-                            <i class="fas fa-lock input-icon"></i>
-                            <button type="button" class="password-toggle" onclick="togglePassword(this, document.getElementById('password'))" aria-label="Toggle password visibility">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary auth-submit" id="loginSubmit">
-                        <span class="spinner"></span>
-                        <span class="btn-text"><i class="fas fa-right-to-bracket me-2"></i>အကောင့်ဝင်ရန်</span>
-                    </button>
-                </form>
-
-                <div class="auth-footer">
-                    အကောင့် မရှိသေးဘူးလား? <a href="/signup">အကောင့်သစ်ဖွင့်ရန်</a>
-                </div>
-
-                <div class="auth-security">
-                    <i class="fas fa-shield-halved"></i>
-                    Spring Security နှင့် BCrypt လျှို့ဝှက်ကုဒ်စနစ်တို့ဖြင့် လုံခြုံစွာ ကာကွယ်ထားပါသည်
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top landing-nav" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-heart-pulse"></i>RedHope
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#knowledge">Blood Donation Knowledge</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sponsors">ကူညီပံ့ပိုးသူများ</a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-2 align-items-center">
+                    <a href="/login" class="btn btn-nav-login btn-sm">Login</a>
+                    <a href="/signup" class="btn btn-nav-signup btn-sm">Sign Up</a>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
 
+    <!-- Hero Section with Carousel -->
+    <header class="hero-carousel" id="heroCarousel">
+        <div id="heroSlides" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-1"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card fade-in-up">
+                                <h1 class="hero-title">သွေးတစ်စက်ချင်းစီဖြင့်၊<br>အသက်များကို ကယ်တင်ပါ။</h1>
+                                <p class="hero-subtitle">RedHope သည် သွေးလှူရှင်များနှင့် ဆေးရုံများကို တိုက်ရိုက် ချိတ်ဆက်ပေးပြီး အရေးပေါ် သွေးလိုအပ်ချက်များကို အချိန်နဲ့တပြေးညီ ကူညီဖြေရှင်းပေးနေပါသည်။</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-hand-holding-heart me-2"></i>Donate Blood 
+                                    </a>
+                                    <a href="/signup" class="btn btn-outline-light btn-lg">
+                                        <i class="fas fa-search me-2"></i>Request Blood
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+<!-- REDHOPE REAL-WORLD 3D HERO -->
+<div class="rh-3d-scene" aria-hidden="true"><div class="rh-particles"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="rh-orbit"><div class="rh-orbit-item"><i class="fas fa-heart-pulse"></i></div><div class="rh-orbit-item"><i class="fas fa-droplet"></i></div><div class="rh-orbit-item"><i class="fas fa-hospital"></i></div></div><div class="rh-3d-drop"><div class="rh-drop-core"></div></div></div>
+
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-2"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card">
+                                <h1 class="hero-title">အချိန်နဲ့တပြေးညီ သွေးလက်ကျန်<br>စောင့်ကြည့်စစ်ဆေးခြင်း</h1>
+                                <p class="hero-subtitle">မိတ်ဖက်ဆေးရုံများမှ သွေးလက်ကျန်စာရင်းများကို တိုက်ရိုက် Update ပြုလုပ်ပေးထားခြင်းဖြင့် သွေးလှူရှင်များ အချိန်မကုန်စေဘဲ အရေးပေါ်လိုအပ်ချက်များကို မြန်ဆန်စွာ ကူညီပေးနိုင်ပါသည်။</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-hospital me-2"></i>ဆေးရုံများ ရှာဖွေရန်
+                                    </a>
+                                    <a href="#how-it-works" class="btn btn-outline-light btn-lg">အသေးစိတ် လေ့လာရန်</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <div class="hero-slide">
+                        <div class="hero-slide-bg slide-3"></div>
+                        <div class="hero-slide-pattern"></div>
+                        <div class="container hero-content-overlay">
+                            <div class="hero-glass-card">
+                                <h1 class="hero-title">အရေးပေါ် အသိပေးချက်များ၊<br>ချက်ချင်း ကူညီဆောင်ရွက်မှု</h1>
+                                <p class="hero-subtitle">ဆေးရုံတစ်ခုတွင် အရေးပေါ် သွေးပြတ်လပ်မှု ဖြစ်ပေါ်ပါက RedHope မှ အနီးအနားရှိ ကိုက်ညီသော သွေးလှူရှင်များထံ အရေးပေါ် အကြောင်းကြားစာများ ချက်ချင်း ပေးပို့ပေးကာ အမြန်ဆုံး တုံ့ပြန်ကူညီနိုင်ရန် ဆောင်ရွက်ပေးပါသည်။</p>
+                                <div class="hero-cta">
+                                    <a href="/signup" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-bell me-2"></i>Join the Network(ကွန်ရက်တွင် ပါဝင်ရန်)
+                                    </a>
+                                    <a href="#knowledge" class="btn btn-outline-light btn-lg">သွေးအကြောင်းသိကောင်းစရာများ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-visual d-none d-lg-block">
+                            <div class="hero-3d-scene">
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-ring"></div>
+                                <div class="hero-3d-drop"></div>
+                                <div class="hero-3d-particles">
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                    <div class="hero-3d-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Custom Indicators -->
+            <div class="carousel-indicators-custom">
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroSlides" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">RedHope အကြောင်း</span>
+                <h2>လိုအပ်သူများနှင့် သွေးလှူရှင်များကို ချိတ်ဆက်ပေးခြင်း</h2>
+                <p>သွေးလှူရှင်များနှင့် ဆေးရုံများကြား လိုအပ်ချက်များကို ပေါင်းကူးပေးပြီး ဘေးကင်းသော သွေးကို အချိန်မီ ရရှိနိုင်စေရန် ဆောင်ရွက်ပေးသည့် ဗဟိုပြု ပလက်ဖောင်းတစ်ခု ဖြစ်ပါသည်။</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>သွေး ရှာဖွေရန်</h3>
+                        <p>မိမိနှင့် နီးစပ်သော မိတ်ဖက်ဆေးရုံများတွင် ရရှိနိုင်သည့် သွေးအမျိုးအစားများကို ရှာဖွေပါ။ အချိန်နှင့်တပြေးညီ သွေးလက်ကျန် စာရင်းများကြောင့် တိကျသော အချက်အလက်ကို ရရှိစေပါမည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>သွေး လှူဒါန်းရန်</h3>
+                        <p>သွေးလှူဒါန်းမှုများကို ရက်ချိန်းယူပြီး လူ့အသက်များစွာ ကယ်တင်ပါ။ အမျိုးသားများ: သွေးတစ်ကြိမ်လှူဒါန်းပြီးပါက ရက်ပေါင်း ၉၀ (၃ လ) ကြာမှ နောက်တစ်ကြိမ် ပြန်လည်လှူဒါန်းသင့်ပါသည်။
+                         အမျိုးသမီးများ: သွေးတစ်ကြိမ်လှူဒါန်းပြီးပါက ရက်ပေါင်း ၁၂၀ (၄ လ) ကြာမှ နောက်တစ်ကြိမ် ပြန်လည်လှူဒါန်းသင့်ပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card-hover">
+                        <div class="feature-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h3>Hospital Network(ဆေးရုံများ ကွန်ရက်)</h3>
+                        <p>မိတ်ဖက်ဆေးရုံများသည် သွေးလက်ကျန်များကို တိုက်ရိုက် စီမံခန့်ခွဲနိုင်ပြီး အလိုအလျောက် အသိပေးချက်စနစ်ဖြင့် သွေးတောင်းခံမှုများကို လုံခြုံစွာ ချိတ်ဆက်ဆောင်ရွက်နိုင်ပါသည်။</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">How It Works</span>
+                <h2>အသက်ကယ်တင်ရန် ရိုးရှင်းသော အဆင့် ၃ ဆင့်</h2>
+                <p>ပါဝင်ကူညီရန် လွယ်ကူပါသည်။ သွေးလှူဒါန်းလိုသည်ဖြစ်စေ၊ သွေးတောင်းခံလိုသည်ဖြစ်စေ RedHope က လုပ်ငန်းစဉ်များကို ရိုးရှင်းအောင် ဆောင်ရွက်ပေးထားပါသည်။</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Create an Account(အကောင့်တစ်ခု ဖန်တီးပါ)</h3>
+                        <p>မိနစ်ပိုင်းအတွင်း သွေးလှူရှင် သို့မဟုတ် သွေးတောင်းခံသူအဖြစ် စာရင်းသွင်းပါ။ မိမိ၏ အကောင့်တွင် သွေးအမျိုးအစား၊ တည်နေရာနှင့် သွေးလှူဒါန်းဖူးသည့် မှတ်တမ်းများကို သိမ်းဆည်းပေးမည် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>သွေးလှူပါ သို့မဟုတ် တောင်းခံပါ</h3>
+                        <p>သွေးလှူဒါန်းရန် ရက်ချိန်းယူပါ သို့မဟုတ် သွေးတောင်းခံလွှာ ပေးပို့ပါ။ ဆေးရုံများမှ အသိပေးချက်များကို လက်ခံရရှိမည်ဖြစ်ပြီး သွေးလက်ကျန်များကို အချိန်နှင့်တပြေးညီ စီမံခန့်ခွဲပေးမည် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>လူ့အသက်များကို ကယ်တင်ပါ</h3>
+                        <p>ဆေးရုံများက တောင်းခံလွှာများကို ဆောင်ရွက်ပေးခြင်း၊ ရက်ချိန်းများကို ညှိနှိုင်းပေးခြင်းနှင့် သွေးလက်ကျန်များကို အဆင့်မြှင့်တင်ပေးခြင်းတို့ ပြုလုပ်ပါမည်။ လုပ်ဆောင်ချက်တိုင်းသည် အသက်များကို ကယ်တင်နိုင်ပြီး လူမှုအသိုက်အဝန်းကို ခိုင်မာစေပါသည်။</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blood Knowledge -->
+    <section id="knowledge" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Blood Donation Knowledge</span>
+                <h2>သွေးလှူဒါန်းခြင်းကို နားလည်သဘောပေါက်ခြင်း</h2>
+                <p>ဗဟုသုတသည် စွမ်းအားကို ဖြစ်စေပါသည်။ သွေးအမျိုးအစား ကိုက်ညီမှု၊ သွေးလှူဒါန်းမှု ဘေးကင်းလုံခြုံရေးနှင့် သင် မည်သို့ ကူညီနိုင်သည်ဆိုသည့် အခြေခံများကို လေ့လာပါ။</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon red">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h4>သွေးအမျိုးအစားများ၏ အရေးပါမှု</h4>
+                        <p>အဓိက သွေးအမျိုးအစား ၈ မျိုး ရှိပါသည်။ O-negative သည် မည်သူမဆို လှူဒါန်းနိုင်သော သွေးအမျိုးအစား ဖြစ်ပြီး AB-positive သည် မည်သည့်သွေးမဆို လက်ခံနိုင်သော သွေးအမျိုးအစား ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon amber">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>ရက်ပေါင်း ၉၀ စည်းမျဉ်း</h4>
+                        <p>သွေးလှူရှင်များသည် သွေးတစ်ကြိမ်လှူပြီးတိုင်း ၉၀ ရက် စောင့်ဆိုင်းရမည် ဖြစ်ပါသည်။ ဤသို့ စောင့်ဆိုင်းခြင်းသည် သင့်ခန္ဓာကိုယ်မှ သံဓာတ်နှင့် သွေးနီဥများကို ဘေးကင်းစွာ ပြန်လည် ဖြည့်တင်းပေးနိုင်မည် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon slate">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <h4>ဘေးကင်းသော လုပ်ငန်းစဉ်</h4>
+                        <p>လှူဒါန်းမှု တိုင်းကို တင်းကျပ်သော ဆေးဝါးဆိုင်ရာ နည်းလမ်းများအတိုင်း စစ်ဆေးခြင်း၊ စမ်းသပ်ခြင်းနှင့် သိမ်းဆည်းခြင်းတို့ ပြုလုပ်ပါသည်။ ကျန်းမာသော လူကြီးများအတွက် သွေးလှူဒါန်းခြင်းသည် လုံးဝ ဘေးကင်းပါသည်။</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="knowledge-card">
+                        <div class="card-icon red">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>မည်သူတွေ သွေးလှူနိုင်လဲ</h4>
+                        <p>အသက် ၁၈ မှ ၆၅ နှစ်ကြား၊ ကိုယ်အလေးချိန် ၅၀ ကီလိုဂရမ်အထက်ရှိပြီး ကျန်းမာရေးကောင်းမွန်သူ အများစု လှူဒါန်းနိုင်ပါသည်။ မိမိ လှူဒါန်းနိုင်မည့် အခြေအနေကို ယနေ့ပဲ စစ်ဆေးပါ။</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Urgent Need / Awareness -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="section-label">အရေးပေါ် လိုအပ်ချက်</span>
+                    <h2 class="mb-3">အရေးပေါ် သွေးတောင်းခံမှုများသည် ချက်ချင်း အရေးယူ ဆောင်ရွက်ရန် လိုအပ်ပါသည်</h2>
+                    <p class="text-muted mb-4">ဆေးရုံများတွင် အရေးပေါ် သွေးပြတ်လပ်မှု ဖြစ်ပေါ်သောအခါ မိနစ်တိုင်းသည် အရေးကြီးပါသည်။ RedHope သည် ထိုဒေသရှိ ကိုက်ညီသော သွေးလှူရှင်များထံ အရေးပေါ် အကြောင်းကြားစာများ ပေးပို့ပေးကာ အရေးကြီးဆုံးအချိန်တွင် အမြန်ဆုံး တုံ့ပြန်ကူညီနိုင်ရန် ဆောင်ရွက်ပေးပါသည်။</p>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i>အချိန်နှင့်တပြေးညီ အရေးပေါ် အသိပေးချက်များ</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i>တည်နေရာအလိုက် သွေးလှူရှင် ချိတ်ဆက်ပေးမှု</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> ဆေးရုံ သွေးလက်ကျန် တိုက်ရိုက် စောင့်ကြည့်မှု</li>
+                        <li class="mb-2"><i class="fas fa-circle-check text-danger me-2"></i> Aအလိုအလျောက် အကြောင်းကြားပေးသည့် စနစ်</li>
+                    </ul>
+                    <a href="/signup" class="btn btn-primary btn-lg">ယနေ့ပဲ RedHope တွင် ပါဝင်ပါ</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">O-Negative</h5>
+                                    <small class="text-muted">မည်သူ့ကိုမဆို လှူနိုင်သူ</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3" style="background: var(--rh-amber-light); color: var(--rh-amber);">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">AB-Positive</h5>
+                                    <small class="text-muted">မည်သည့်သွေးမဆို လက်ခံနိုင်သူ</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3" style="background: var(--rh-slate-100); color: var(--rh-slate-700);">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">A-Positive</h5>
+                                    <small class="text-muted">အတွေ့ရများသော သွေးအမျိုးအစား</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body text-center p-4">
+                                    <div class="feature-icon mx-auto mb-3">
+                                        <i class="fas fa-droplet"></i>
+                                    </div>
+                                    <h5 class="mb-1">O-Positive</h5>
+                                    <small class="text-muted">အလိုအပ်ဆုံး သွေးအမျိုးအစား</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsor Section -->
+    <section class="sponsor-section" id="sponsors">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">ကျွန်ုပ်တို့၏ ကူညီပံ့ပိုးသူများ</span>
+                <h2>ထိပ်တန်း ကျန်းမာရေးစောင့်ရှောက်မှု မိတ်ဖက်များ၏ ပံ့ပိုးမှု</h2>
+                <p>သွေးလှူဒါန်းခြင်းကို လွယ်ကူစေရန်၊ ဘေးကင်းစေရန်နှင့် ထိရောက်မှုရှိစေရန် ကျွန်ုပ်တို့၏ ရည်မှန်းချက်တွင် ပူးပေါင်းပါဝင်ပေးကြသော အဖွဲ့အစည်းများ ဖြစ်ပါသည်။</p>
+            </div>
+        </div>
+        <div class="container sponsor-carousel">
+            <div id="sponsorCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-hospital"></i>
+                                    </div>
+                                    <h5>HealthFirst Network</h5>
+                                    <p>ဒေသတွင်း ဆေးရုံများ၏ သွေးစီမံခန့်ခွဲမှုစနစ်များ ပေါင်းစည်းဆောင်ရွက်နိုင်ရန် ပံ့ပိုးပေးလျက်ရှိသည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <h5>MediTrust Labs</h5>
+                                    <p>ဘေးကင်းသော သွေးလှူဒါန်းမှုများအတွက် အဆင့်မြင့် သွေးစစ်ဆေးခြင်းဆိုင်ရာ အခြေခံအဆောက်အအုံများကို ထောက်ပံ့ပေးလျက်ရှိသည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">အသေးစိတ် လေ့လာရန်<i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-hand-holding-medical"></i>
+                                    </div>
+                                    <h5>CareConnect Foundation</h5>
+                                    <p>တစ်နိုင်ငံလုံး အတိုင်းအတာဖြင့် လူထု သွေးလှူဒါန်းပွဲများနှင့် သွေးလှူရှင် ပညာပေး အစီအစဉ်များကို ရန်ပုံငွေ ထောက်ပံ့ပေးလျက်ရှိသည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-heart-pulse"></i>
+                                    </div>
+                                    <h5>CardioVascular Institute</h5>
+                                    <p>သွေးနှင့် သက်ဆိုင်သော နှလုံးရောဂါ ကုသမှုများအတွက် သုတေသနနှင့် အသိပညာပေး လုပ်ငန်းများကို မြှင့်တင် ဆောင်ရွက်ပေးလျက်ရှိသည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-microscope"></i>
+                                    </div>
+                                    <h5>BioGenesis Research</h5>
+                                    <p>သွေးထိန်းသိမ်းမှုနှင့် သွေးအမျိုးအစား ကိုက်ညီမှု ဆိုင်ရာ နည်းပညာများကို အဆန်းသစ်ဆုံး တီထွင်ဖန်တီးပေးလျက်ရှိသည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sponsor-card">
+                                    <div class="sponsor-logo">
+                                        <i class="fas fa-ambulance"></i>
+                                    </div>
+                                    <h5>RapidResponse Medical</h5>
+                                    <p>အရေးပေါ် သွေးများကို ဆေးရုံများထံ ပိုမိုမြန်ဆန်စွာ ရောက်ရှိစေရန် ကူညီပေးနေသော အရေးပေါ် ပို့ဆောင်ရေး မိတ်ဖက်အဖွဲ့အစည်း ဖြစ်သည်။</p>
+                                    <a href="#" class="text-decoration-none small fw-semibold" style="color: var(--rh-red);">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#sponsorCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">ယခင်</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#sponsorCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">ရှေ့သို့</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="statistics-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">ကျွန်ုပ်တို့၏ ဆောင်ရွက်နိုင်မှုများ</span>
+                <h2>ကိန်းဂဏန်းအချက်အလက်များဖြင့် RedHopeကိုကြည့်မည်ဆိုလျှင် </h2>
+                <p>မိတ်ဖက်ဆေးရုံများနှင့် တက်ကြွသော သွေးလှူရှင်များ ကွန်ရက်မှ အချိန်နှင့်တပြေးညီ ရရှိသော အချက်အလက်များ ဖြစ်ပါသည်။</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-value">5k+</div>
+                        <div class="stat-label">သွေးတောင်းခံမှုများ</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">သွေးလှူဒါန်းမှုများ</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value">2K+</div>
+                        <div class="stat-label">ကူညီနိုင်ခဲ့သောအရေအတွက်</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>အပြောင်းအလဲတစ်ခု ဖန်တီးဖို့ အသင့်ဖြစ်ပြီလား။</h2>
+            <p>စနစ်တကျ သွေးလှူဒါန်းမှုများမှတစ်ဆင့် အသက်များကို ကယ်တင်ရန် ပူးပေါင်းဆောင်ရွက်နေကြသော ထောင်ပေါင်းများစွာသော သွေးလှူရှင်များနှင့် ဆေးရုံများတွင် ပါဝင်လိုက်ပါ။</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/signup" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>အကောင့်သစ်ဖွင့်ရန်
+                </a>
+                <a href="/login" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-right-to-bracket me-2"></i>အကောင့်ဝင်ရန်
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="compact-footer" id="contact">
+        <div class="container">
+            <div class="row align-items-center g-3">
+                <div class="col-md-4">
+                    <div class="footer-brand">
+                        <i class="fas fa-heart-pulse"></i>RedHope
+                    </div>
+                    <p class="footer-tagline">Connecting blood donors and hospitals in real time to help save lives.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <ul class="footer-links">
+                        <li><a href="/signup">Donate Blood</a></li>
+                        <li><a href="/signup">Request Blood</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#knowledge">Blood Donation Knowledge</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 RedHope. All rights reserved. Built with care to help save lives.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Modern motion libraries: GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/auth.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function() {
-            setSubmitLoading(this, true);
-        });
+        (function() {
+            var navbar = document.getElementById('mainNav');
+            if (!navbar) return;
+
+            function updateNavbar() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            window.addEventListener('scroll', updateNavbar, { passive: true });
+            updateNavbar();
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        const navHeight = navbar.offsetHeight;
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Close mobile menu
+                        const navCollapse = document.getElementById('navbarNav');
+                        const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                        if (bsCollapse && navCollapse.classList.contains('show')) {
+                            bsCollapse.hide();
+                        }
+                    }
+                });
+            });
+
+            // Back to top button
+            var backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 500) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                }, { passive: true });
+
+                backToTopBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        })();
     </script>
+
+<!-- REDHOPE REALWORLD MOTION ENGINE -->
+<script>document.addEventListener('DOMContentLoaded',function(){const items=document.querySelectorAll('.section-header,.feature-card,.step-card,.knowledge-card,.urgent-card,.sponsor-card,.contact-card');items.forEach((e,i)=>{e.classList.add('rh-reveal');e.style.transitionDelay=(Math.min(i%5,4)*65)+'ms'});if('IntersectionObserver' in window){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');o.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -45px 0px'});items.forEach(e=>o.observe(e))}else items.forEach(e=>e.classList.add('is-visible'));const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;const fine=matchMedia('(hover: hover) and (pointer: fine)').matches;if(!reduce&&fine){const scene=document.querySelector('.rh-3d-scene');if(scene){const visual=scene.parentElement;visual.addEventListener('pointermove',e=>{const r=visual.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;scene.style.transform='rotateX('+(-y*5)+'deg) rotateY('+(x*7)+'deg) translateZ(20px)'});visual.addEventListener('pointerleave',()=>scene.style.transform='')}document.querySelectorAll('.feature-card,.step-card,.knowledge-card').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateX('+(-y*3.2)+'deg) rotateY('+(x*4)+'deg) translateY(-6px)'});c.addEventListener('pointerleave',()=>c.style.transform='')})}});</script>
+
+<!-- REDHOPE_NAV_ACTIVE_ENGINE -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const nav = document.querySelector('.landing-nav');
+    const links = document.querySelectorAll('.landing-nav .nav-link[href^="#"]');
+
+    if (!nav || !links.length) return;
+
+    const sections = Array.from(links)
+        .map(function (link) {
+            return document.querySelector(link.getAttribute('href'));
+        })
+        .filter(Boolean);
+
+    function updateActive() {
+        const offset = nav.offsetHeight + 80;
+        let current = '';
+
+        sections.forEach(function (section) {
+            if (window.scrollY >= section.offsetTop - offset) {
+                current = '#' + section.id;
+            }
+        });
+
+        links.forEach(function (link) {
+            link.classList.toggle(
+                'active',
+                link.getAttribute('href') === current
+            );
+        });
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
+});
+</script>
+
+
+    <!-- REDHOPE_GSAP_MOTION_ENGINE -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!window.gsap || !window.ScrollTrigger) return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) return;
+
+        // Reveal content with depth, not generic fade-only motion.
+        gsap.utils.toArray('.section .section-header, .feature-card, .step-card, .knowledge-card, .sponsor-card, .stat-card').forEach(function (el, i) {
+            gsap.fromTo(el,
+                { autoAlpha: 0, y: 55, rotateX: 7, z: -45 },
+                {
+                    autoAlpha: 1, y: 0, rotateX: 0, z: 0,
+                    duration: .9, ease: 'power3.out',
+                    delay: (i % 4) * .06,
+                    scrollTrigger: { trigger: el, start: 'top 84%', once: true }
+                }
+            );
+        });
+
+        // Scroll-linked 3D movement for existing hero visuals.
+        gsap.utils.toArray('.hero-3d-scene').forEach(function (scene) {
+            gsap.to(scene, {
+                y: -55, rotateY: 9, rotateX: 5,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero-carousel', start: 'top top', end: 'bottom top', scrub: 1.2
+                }
+            });
+        });
+
+        // Subtle depth/parallax for section decorations.
+        gsap.utils.toArray('.section-alt, .about-section, .knowledge-section').forEach(function (section) {
+            const cards = section.querySelectorAll('.feature-card, .knowledge-card, .step-card');
+            if (!cards.length) return;
+            gsap.to(cards, {
+                y: -16, stagger: .08, ease: 'none',
+                scrollTrigger: { trigger: section, start: 'top bottom', end: 'bottom top', scrub: 1.6 }
+            });
+        });
+
+        // Hero glass card enters like a premium product intro.
+        gsap.fromTo('.hero-glass-card',
+            { autoAlpha: 0, y: 28, rotateX: 5, transformPerspective: 1000 },
+            { autoAlpha: 1, y: 0, rotateX: 0, duration: 1.05, ease: 'power3.out', delay: .18 }
+        );
+
+        // Interactive desktop depth on cards.
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            document.querySelectorAll('.feature-card, .step-card, .knowledge-card, .sponsor-card').forEach(function(card) {
+                card.addEventListener('pointermove', function(e) {
+                    const r=card.getBoundingClientRect();
+                    const x=(e.clientX-r.left)/r.width-.5;
+                    const y=(e.clientY-r.top)/r.height-.5;
+                    gsap.to(card,{rotateY:x*4,rotateX:-y*3,y:-5,duration:.35,ease:'power2.out',overwrite:true});
+                });
+                card.addEventListener('pointerleave', function(){
+                    gsap.to(card,{rotateY:0,rotateX:0,y:0,duration:.6,ease:'power3.out',overwrite:true});
+                });
+            });
+        }
+    });
+    </script>
+
 </body>
 </html>
