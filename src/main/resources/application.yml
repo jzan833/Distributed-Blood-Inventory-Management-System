@@ -14,8 +14,8 @@ spring:
   datasource:
     url: jdbc:mariadb://mysql-redhope-redhope.c.aivencloud.com:14302/defaultdb?sslMode=REQUIRED
     username: avnadmin
-    password: ${DB_PASSWORD}
-    
+    password:  ${DB_PASSWORD}
+    #
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -50,12 +50,13 @@ spring:
     cache: false
     check-template-location: true
 
+  # --- Mailtrap Live SMTP Setup ---
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: redhope223blood@gmail.com
-    password: ${MAIL_PASSWORD}
-    
+    host: live.smtp.mailtrap.io
+    port: 2525
+    username: api
+    password: ${MAIL_PASSWORD} #Mailtrap Sending Domains 
+    #
     properties:
       mail:
         smtp:
@@ -64,7 +65,8 @@ spring:
             enable: true
             required: true
     from:
-      address: ${MAIL_FROM:redhope223blood@gmail.com}
+      address: ${MAIL_FROM:no-reply@redhope.site} # Domain Verify 
+      
       name: RedHope Blood Donation System
 
   messages:
