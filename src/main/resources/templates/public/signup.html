@@ -1,49 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="my" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>အကောင့်ဝင်ရန် - RedHope</title>
+    <title>အကောင့်သစ်ဖွင့်ရန် - RedHope</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="/css/main.css" rel="stylesheet">
     <link href="/css/auth.css" rel="stylesheet">
 </head>
-<body class="auth-page">
+<body class="auth-page auth-signup">
 
-    <!-- 3D Background Shapes -->
-    <div class="auth-3d-shapes">
-        <div class="auth-3d-drop"></div>
-        <div class="auth-3d-ring"></div>
-        <div class="auth-3d-ring"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
-        <div class="auth-3d-particle"></div>
+    <div class="auth-bg" aria-hidden="true">
+        <div class="aurora aurora-a"></div>
+        <div class="aurora aurora-b"></div>
+        <div class="grid-plane"></div>
+        <div class="ring ring-a"></div>
+        <div class="ring ring-b"></div>
+        <div class="spark spark-a"></div>
+        <div class="spark spark-b"></div>
+        <div class="spark spark-c"></div>
+        <div class="spark spark-d"></div>
+        <div class="noise"></div>
     </div>
 
-    <div class="auth-container signup-container">
-        <a href="/" class="auth-back-btn">
-            <i class="fas fa-arrow-left me-1"></i> ပင်မစာမျက်နှာသို့
-        </a>
+    <main class="auth-shell signup-shell">
+        <section class="auth-showcase">
+            <a href="/" class="brand-lockup">
+                <span class="brand-mark"><i class="fas fa-heart-pulse"></i></span>
+                <span>
+                    <strong>RedHope</strong>
+                    <small>Blood care, connected.</small>
+                </span>
+            </a>
 
-        <div class="auth-card">
-            <div class="auth-card-body">
-                <div class="auth-brand">
-                    <div class="auth-brand-icon">
-                        <i class="fas fa-heart-pulse"></i>
-                    </div>
-                    <h1>အကောင့်သစ် ပြုလုပ်ပါ</h1>
-                    <p>RedHope တွင် ပါဝင်ပြီး အသက်များကို စတင် ကယ်တင်ပါ</p></p>
+            <a href="/" class="home-btn">
+                <i class="fas fa-house"></i>
+                <span>မူလစာမျက်နှာ</span>
+            </a>
+
+            <div class="network-visual" aria-hidden="true">
+                <div class="node node-1"><i class="fas fa-user"></i></div>
+                <div class="node node-2"><i class="fas fa-droplet"></i></div>
+                <div class="node node-3"><i class="fas fa-hospital"></i></div>
+                <div class="node node-4"><i class="fas fa-heart"></i></div>
+                <svg class="network-lines" viewBox="0 0 500 420" preserveAspectRatio="none">
+                    <path d="M105 90 C165 125 188 160 248 190 S348 226 398 120" />
+                    <path d="M105 90 C120 180 170 260 248 315 S335 355 398 318" />
+                    <path d="M398 120 C345 190 325 255 248 315" />
+                    <circle cx="105" cy="90" r="5"/>
+                    <circle cx="248" cy="190" r="5"/>
+                    <circle cx="398" cy="120" r="5"/>
+                    <circle cx="248" cy="315" r="5"/>
+                    <circle cx="398" cy="318" r="5"/>
+                </svg>
+                <div class="network-core">
+                    <span><i class="fas fa-heart-pulse"></i></span>
+                    <strong>REDHOPE</strong>
+                    <small>CONNECT • CARE • SAVE</small>
+                </div>
+            </div>
+
+            <div class="showcase-footer">
+                <span><i class="fas fa-shield-heart"></i> Secure registration</span>
+                <span><i class="fas fa-users"></i> Join the community</span>
+            </div>
+        </section>
+
+        <section class="auth-panel">
+            <div class="auth-panel-inner">
+                <a href="/" class="home-btn-mobile">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>မူလစာမျက်နှာ</span>
+                </a>
+
+                <div class="auth-heading">
+                    <span class="auth-label">CREATE YOUR ACCOUNT</span>
+                    <h1>အကောင့်သစ်ဖွင့်ရန်</h1>
+                    <p>သင့်အချက်အလက်တွေကို ဖြည့်ပြီး RedHope ထဲ ဝင်ရောက်ပါ။</p>
                 </div>
 
                 <div th:if="${errorMessage}" class="auth-alert auth-alert-danger" role="alert">
                     <i class="fas fa-circle-exclamation"></i>
-                    <div th:text="${errorMessage}"></div>
+                    <span th:text="${errorMessage}"></span>
                 </div>
 
-                <form th:action="@{/signup}" method="post" th:object="${signupRequest}" id="signupForm">
+                <form th:action="@{/signup}" method="post" th:object="${signupRequest}" id="signupForm" class="auth-form">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                     <div th:if="${#fields.hasGlobalErrors()}" class="auth-alert auth-alert-danger" role="alert">
@@ -51,32 +94,27 @@
                         <div th:each="error : ${#fields.globalErrors()}" th:text="${error.defaultMessage}"></div>
                     </div>
 
-                    <!-- Personal Information -->
-                    <div class="mb-2">
-                        <label class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.5px;">ကိုယ်ရေးအချက်အလက်</label>
-                    </div>
-
                     <div class="auth-form-group">
                         <label for="fullName">အမည်အပြည့်အစုံ</label>
                         <div class="auth-input-wrapper">
                             <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
-                                   placeholder="သင့်အမည်အပြည့်အစုံကို ရိုက်ထည့်ပါ" required>
+                                   placeholder="သင့်အမည်" required autofocus>
                             <i class="fas fa-user input-icon"></i>
                         </div>
-                        <div th:if="${#fields.hasErrors('fullName')}" class="text-danger mt-1" th:each="error : ${#fields.errors('fullName')}">
-                            <small th:text="${error}"></small>
+                        <div th:if="${#fields.hasErrors('fullName')}" class="auth-error" th:each="error : ${#fields.errors('fullName')}">
+                            <span th:text="${error}"></span>
                         </div>
                     </div>
 
                     <div class="auth-form-group">
-                        <label for="email">အီးမေးလ် လိပ်စာ</label>
+                        <label for="email">အီးမေးလ်</label>
                         <div class="auth-input-wrapper">
                             <input type="email" class="form-control" id="email" th:field="*{email}"
                                    placeholder="name@example.com" required>
                             <i class="fas fa-envelope input-icon"></i>
                         </div>
-                        <div th:if="${#fields.hasErrors('email')}" class="text-danger mt-1" th:each="error : ${#fields.errors('email')}">
-                            <small th:text="${error}"></small>
+                        <div th:if="${#fields.hasErrors('email')}" class="auth-error" th:each="error : ${#fields.errors('email')}">
+                            <span th:text="${error}"></span>
                         </div>
                     </div>
 
@@ -88,78 +126,91 @@
                                        placeholder="+95 9 123 456 789" required>
                                 <i class="fas fa-phone input-icon"></i>
                             </div>
-                            <div th:if="${#fields.hasErrors('phone')}" class="text-danger mt-1" th:each="error : ${#fields.errors('phone')}">
-                                <small th:text="${error}"></small>
+                            <div th:if="${#fields.hasErrors('phone')}" class="auth-error" th:each="error : ${#fields.errors('phone')}">
+                                <span th:text="${error}"></span>
                             </div>
                         </div>
+
                         <div class="auth-form-group">
-                            <label for="city">မြို့နယ်/မြို့</label>
+                            <label for="city">မြို့</label>
                             <div class="auth-input-wrapper">
                                 <input type="text" class="form-control" id="city" th:field="*{city}"
-                                       placeholder="သင့်မြို့ကို ရိုက်ထည့်ပါ" required>
+                                       placeholder="မြို့အမည်" required>
                                 <i class="fas fa-city input-icon"></i>
                             </div>
-                            <div th:if="${#fields.hasErrors('city')}" class="text-danger mt-1" th:each="error : ${#fields.errors('city')}">
-                                <small th:text="${error}"></small>
+                            <div th:if="${#fields.hasErrors('city')}" class="auth-error" th:each="error : ${#fields.errors('city')}">
+                                <span th:text="${error}"></span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Blood Information -->
-                    <div class="mb-2 mt-3">
-                        <label class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.5px;">သွေးအမျိုးအစားဆိုင်ရာ အချက်အလက်</label>
                     </div>
 
                     <div class="auth-form-group">
                         <label for="bloodType">သွေးအမျိုးအစား</label>
-                        <select class="form-select" id="bloodType" th:field="*{bloodType}" required>
-                            <option value="" disabled selected>သွေးအမျိုးအစား ရွေးချယ်ပါ</option>
-                            <option th:each="type : ${bloodTypes}" th:value="${type.name()}" th:text="${type.displayName}"></option>
-                        </select>
-                        <div th:if="${#fields.hasErrors('bloodType')}" class="text-danger mt-1" th:each="error : ${#fields.errors('bloodType')}">
-                            <small th:text="${error}"></small>
+                        <div class="auth-input-wrapper">
+                            <select class="form-control" id="bloodType" th:field="*{bloodType}" required>
+                                <option value="" disabled selected>ရွေးချယ်ပါ</option>
+                                <option th:each="type : ${bloodTypes}" th:value="${type.name()}" th:text="${type.displayName}"></option>
+                            </select>
+                            <i class="fas fa-droplet input-icon"></i>
+                            <i class="fas fa-chevron-down select-chevron"></i>
                         </div>
-                    </div>
-
-                    <!-- Security -->
-                    <div class="mb-2 mt-3">
-                        <label class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.5px;">လုံခြုံရေး</label>
+                        <div th:if="${#fields.hasErrors('bloodType')}" class="auth-error" th:each="error : ${#fields.errors('bloodType')}">
+                            <span th:text="${error}"></span>
+                        </div>
                     </div>
 
                     <div class="auth-form-group">
                         <label for="password">စကားဝှက်</label>
                         <div class="auth-input-wrapper">
                             <input type="password" class="form-control" id="password" th:field="*{password}"
-                                   placeholder="ခိုင်မာသော စကားဝှက်တစ်ခု ဖန်တီးပါ" required>
+                                   placeholder="အနည်းဆုံး ၆ လုံး" required>
                             <i class="fas fa-lock input-icon"></i>
-                            <button type="button" class="password-toggle" onclick="togglePassword(this, document.getElementById('password'))" aria-label="Toggle password visibility">
+                            <button type="button" class="password-toggle"
+                                    onclick="togglePassword(this, document.getElementById('password'))"
+                                    aria-label="စကားဝှက် ပြ/ဖျောက်">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
-                        <div th:if="${#fields.hasErrors('password')}" class="text-danger mt-1" th:each="error : ${#fields.errors('password')}">
-                            <small th:text="${error}"></small>
+                        <div th:if="${#fields.hasErrors('password')}" class="auth-error" th:each="error : ${#fields.errors('password')}">
+                            <span th:text="${error}"></span>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary auth-submit" id="signupSubmit">
+                    <button type="submit" class="auth-submit" id="signupSubmit">
                         <span class="spinner"></span>
-                        <span class="btn-text"><i class="fas fa-user-plus me-2"></i>အကောင့်သစ် ပြုလုပ်ပါ</span>
+                        <span class="btn-text">
+                            <i class="fas fa-user-plus"></i>
+                            အကောင့်ဖွင့်မည်
+                        </span>
                     </button>
                 </form>
 
                 <div class="auth-footer">
-                    အကောင့် ရှိပြီးသားဖြစ်ပါသလား? <a href="/login">အကောင့်ဝင်ရန်</a>
+                    <span>အကောင့်ရှိပြီးသားလား?</span>
+                    <a href="/login">ဝင်ရန် <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/auth.js"></script>
     <script>
         document.getElementById('signupForm').addEventListener('submit', function() {
-            setSubmitLoading(this, true);
+            const btn = document.getElementById('signupSubmit');
+            btn.classList.add('loading');
+            btn.disabled = true;
         });
+
+        function togglePassword(btn, input) {
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
     </script>
 </body>
 </html>

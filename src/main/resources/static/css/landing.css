@@ -577,3 +577,125 @@ body{
 .knowledge-more p{color:#4f5d66}
 
 .emergency-copy h2,.emergency-copy h2 span{color:#fff!important}
+
+
+/* 
+   Landing Navbar + Auth CTA refinements
+   Visual-only refinement; existing landing sections preserved.
+  */
+.landing-nav .container{
+  min-height:72px;
+}
+.landing-nav .navbar-collapse{
+  align-items:center;
+}
+.landing-nav .navbar-nav{
+  align-items:center;
+}
+.landing-nav .nav-actions{
+  margin-left:1rem;
+  flex-shrink:0;
+}
+.landing-nav .nav-actions .btn{
+  min-height:38px;
+  padding:.52rem .95rem;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.42rem;
+  white-space:nowrap;
+  transition:transform .25s var(--v-ease),box-shadow .25s var(--v-ease),background .25s ease,border-color .25s ease;
+}
+.landing-nav .nav-actions .btn:hover{
+  transform:translateY(-1px);
+}
+.landing-nav .btn-nav-login{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.24);
+}
+.landing-nav .btn-nav-login:hover{
+  background:rgba(255,255,255,.13);
+  border-color:rgba(255,255,255,.4);
+}
+.landing-nav .btn-nav-signup{
+  box-shadow:0 8px 22px rgba(255,255,255,.08);
+}
+.landing-nav .btn-nav-signup:hover{
+  background:#f7d36e;
+  color:#3b2a05!important;
+  box-shadow:0 10px 26px rgba(242,200,91,.2);
+}
+.landing-nav .btn-nav-dashboard{
+  color:#fff!important;
+  background:linear-gradient(135deg,rgba(168,20,43,.9),rgba(214,56,80,.9));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 8px 22px rgba(168,20,43,.2);
+}
+.landing-nav .btn-nav-dashboard:hover{
+  background:linear-gradient(135deg,#b91e39,#dc4b61);
+  box-shadow:0 12px 28px rgba(168,20,43,.28);
+}
+
+@media(max-width:991.98px){
+  .landing-nav .container{min-height:66px;}
+  .landing-nav .navbar-collapse{
+    margin-top:.55rem;
+    padding:.75rem;
+  }
+  .landing-nav .navbar-nav{
+    align-items:stretch;
+  }
+  .landing-nav .nav-actions{
+    margin:0;
+    padding:.75rem .2rem .2rem;
+    display:grid!important;
+    grid-template-columns:1fr 1fr;
+    gap:.55rem!important;
+    border-top:1px solid rgba(255,255,255,.09);
+  }
+  .landing-nav .nav-actions .btn{
+    width:100%;
+    min-height:42px;
+  }
+}
+
+@media(max-width:575.98px){
+  .landing-nav .navbar-brand{
+    font-size:1.02rem;
+  }
+  .landing-nav .navbar-toggler{
+    width:42px;
+    height:40px;
+  }
+  .landing-nav .navbar-collapse{
+    border-radius:16px;
+    padding:.65rem;
+  }
+  .landing-nav .nav-link{
+    font-size:.88rem;
+    padding:.72rem .75rem;
+  }
+  .landing-nav .nav-actions{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Keep action buttons comfortable on small screens without changing section design. */
+@media(max-width:767px){
+  .hero-cta{
+    gap:.6rem;
+  }
+  .hero-cta .btn{
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .emergency-btn{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.72rem 1rem;
+  }
+}

@@ -207,6 +207,13 @@
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
+    box-shadow: 4px 0 24px rgba(15, 23, 42, 0.12);
+}
+
+/* Gradient top bar for mobile (replaces flat bg-danger) */
+.hospital-mobile-topbar {
+    background: linear-gradient(135deg, var(--rh-red) 0%, var(--rh-red-dark) 100%) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hospital-sidebar .sidebar-brand {
@@ -230,7 +237,12 @@
     font-weight: 500;
 }
 
-.hospital-sidebar .nav-link:hover,
+.hospital-sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(2px);
+}
+
 .hospital-sidebar .nav-link.active {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.15);
@@ -717,6 +729,17 @@
     color: rgba(255, 255, 255, 0.45);
 }
 
+/* Compact footer variant (dashboard pages with just a copyright line) */
+.hospital-footer.footer-compact {
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hospital-footer.footer-compact p {
+    font-size: 0.82rem;
+    letter-spacing: 0.2px;
+}
+
 /* ============================================
    Hospital Admin Modern Design System
    ============================================ */
@@ -726,7 +749,10 @@
     position: relative;
     padding: 2rem 2.5rem;
     border-radius: var(--rh-radius-xl);
-    background: linear-gradient(135deg, var(--rh-red) 0%, var(--rh-red-dark) 100%);
+    background:
+        radial-gradient(circle at 12px 12px, rgba(255,255,255,0.07) 1.5px, transparent 1.5px),
+        linear-gradient(135deg, var(--rh-red) 0%, var(--rh-red-dark) 100%);
+    background-size: 24px 24px, 100% 100%;
     color: var(--rh-white);
     overflow: hidden;
     box-shadow: var(--rh-shadow-lg);
@@ -827,19 +853,24 @@
 }
 
 .stat-card-modern:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--rh-shadow-md);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: var(--rh-shadow-lg);
 }
 
 .stat-card-modern .stat-icon-wrap {
     width: 44px;
     height: 44px;
-    border-radius: var(--rh-radius);
+    border-radius: var(--rh-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
     font-size: 1.2rem;
+    transition: var(--rh-transition-slow);
+}
+
+.stat-card-modern:hover .stat-icon-wrap {
+    transform: scale(1.08) rotate(-4deg);
 }
 
 .stat-card-modern .stat-number {
@@ -851,10 +882,9 @@
 }
 
 .stat-card-modern .stat-title {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    line-height: 1.35;
     margin-bottom: 0.25rem;
 }
 
@@ -941,7 +971,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rh-slate-200);
 }
 
 .section-header-modern h3 {
@@ -968,11 +1000,15 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--rh-radius-sm);
+    margin: -0.35rem -0.7rem;
 }
 
 .section-header-modern .view-all:hover {
     color: var(--rh-red-hover);
     gap: 0.4rem;
+    background: var(--rh-red-light);
 }
 
 /* Modern Table Container */
@@ -996,9 +1032,7 @@
 .table-container-modern .table thead th {
     background: var(--rh-slate-50);
     font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.8rem;
     color: var(--rh-slate-500);
     padding: 0.85rem 1.25rem;
     border-bottom: 2px solid var(--rh-slate-200);
@@ -1224,12 +1258,17 @@
 .quick-action-card-modern .action-icon-modern {
     width: 48px;
     height: 48px;
-    border-radius: var(--rh-radius);
+    border-radius: var(--rh-radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
     flex-shrink: 0;
+    transition: var(--rh-transition-slow);
+}
+
+.quick-action-card-modern:hover .action-icon-modern {
+    transform: scale(1.08) rotate(-4deg);
 }
 
 .quick-action-card-modern .action-icon-modern.red { background: var(--rh-red-light); color: var(--rh-red); }
@@ -1497,6 +1536,60 @@
         padding: 0.4rem 0.75rem;
         font-size: 0.8rem;
         justify-content: center;
+    }
+
+    /* Card-style tables on mobile — no more sideways scrolling */
+    .table-mobile-cards thead {
+        display: none;
+    }
+
+    .table-mobile-cards,
+    .table-mobile-cards tbody,
+    .table-mobile-cards tr,
+    .table-mobile-cards td {
+        display: block;
+        width: 100%;
+    }
+
+    .table-mobile-cards tbody {
+        padding: 0.75rem;
+    }
+
+    .table-mobile-cards tr {
+        background: var(--rh-white);
+        border: 1px solid var(--rh-slate-200);
+        border-radius: var(--rh-radius);
+        margin-bottom: 0.65rem;
+        padding: 0.15rem 0.9rem;
+        box-shadow: var(--rh-shadow-sm);
+    }
+
+    .table-mobile-cards tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .table-mobile-cards td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.55rem 0 !important;
+        border-bottom: 1px dashed var(--rh-slate-100) !important;
+        font-size: 0.85rem !important;
+        text-align: right;
+    }
+
+    .table-mobile-cards tr td:last-child {
+        border-bottom: none !important;
+    }
+
+    .table-mobile-cards td::before {
+        content: attr(data-label);
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--rh-slate-500);
+        text-align: left;
+        flex-shrink: 0;
     }
 }
 

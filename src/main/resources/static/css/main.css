@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Myanmar:wght@300;400;500;600;700&display=swap');
 
 :root {
     /* Brand */
@@ -38,7 +38,7 @@
     --rh-warning-light: #fef3c7;
 
     /* Typography */
-    --rh-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --rh-font: 'Inter', 'Noto Sans Myanmar', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
     /* Spacing */
     --rh-radius: 0.75rem;
@@ -66,6 +66,7 @@ body {
     font-family: var(--rh-font);
     color: var(--rh-slate-800);
     background-color: var(--rh-slate-50);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -74,7 +75,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     color: var(--rh-slate-900);
-    line-height: 1.25;
+    line-height: 1.4;
 }
 
 /* Links */
@@ -220,9 +221,9 @@ a:hover {
     opacity: 0;
 }
 
-/* ============================================
+/* 
    Compact Footer (used across all pages)
-   ============================================ */
+   */
 .compact-footer {
     background: var(--rh-dark);
     color: rgba(255, 255, 255, 0.7);
@@ -305,9 +306,9 @@ a:hover {
     color: rgba(255, 255, 255, 0.45);
 }
 
-/* ============================================
+/* 
    Back to Top Button
-   ============================================ */
+    */
 .back-to-top {
     position: fixed;
     bottom: 2rem;
@@ -343,9 +344,9 @@ a:hover {
     color: var(--rh-white);
 }
 
-/* ============================================
+/* 
    Sponsor Carousel Arrows
-   ============================================ */
+   */
 .sponsor-carousel .carousel-control-prev,
 .sponsor-carousel .carousel-control-next {
     width: 42px;
@@ -452,9 +453,9 @@ a:hover {
     75% { transform: translate(20px, 10px) scale(1.02); }
 }
 
-/* ============================================
+/* 
    Soft Layered Backgrounds
-   ============================================ */
+ */
 .bg-layer-red {
     position: absolute;
     top: 0;
@@ -503,9 +504,9 @@ a:hover {
     box-shadow: var(--rh-shadow-lg);
 }
 
-/* ============================================
+/* 
    Page Background Layers
-   ============================================ */
+    */
 .page-bg-layer {
     position: absolute;
     top: 0;
